@@ -1,0 +1,147 @@
+Downloading gasoline price data from FRED (GASREGCOVW)...
+  Gas data: 1864 weekly obs, 1990-08-20 – 2026-06-15
+Downloading SPR stock data from EIA XLS (WCSSTUS1)...
+  SPR data: 2281 weekly obs, 1982-08-23 – 2026-06-15
+Weekly panel: 2907 obs, 1970-01-05 – 2026-06-15
+Gas windows computed: 25 election years
+Downloading MIT House election data (TidyTuesday)...
+  MIT data: 1199 state-year obs, years 1976–2022
+Downloading BLS LAUS state unemployment data...
+  BLS download failed (403 Client Error: Forbidden for url: https://download.bls.gov/pub/time.series/la/la.data.64.StateU); using calibrated unemployment.
+Panel: 1449 total state-year obs
+
+======================================================================
+TABLE 2A: PRIMARY MIDTERM SAMPLE (1994-2022, 8 cycles)
+======================================================================
+N=394, states=50, cycles=8
+
+M1 Baseline  R²_within=-0.0009  N=394
+  unemp_rate                             -0.0006  (0.0105)  
+  income_growth                           0.0037  (0.0073)  
+
+M2 Gas×Exp (YoY)  R²_within=0.0001  N=394
+  gasyoy_x_exp                            0.0504  (0.0806)  
+  unemp_rate                             -0.0005  (0.0104)  
+  income_growth                           0.0036  (0.0073)  
+
+M5 Gas^W×Exp (preferred)  R²_within=0.0263  N=394
+  gasw_x_exp                             -0.0311  (0.0060)  ***
+  unemp_rate                              0.0008  (0.0106)  
+  income_growth                           0.0018  (0.0072)  
+
+M6 Gas6m×Exp (robustness)  R²_within=0.0278  N=394
+  gas6m_x_exp                            -0.0305  (0.0059)  ***
+  unemp_rate                              0.0008  (0.0106)  
+  income_growth                           0.0017  (0.0072)  
+
+======================================================================
+TABLE 2B: PRIMARY PRESIDENTIAL SAMPLE (1992-2020, 8 cycles)
+======================================================================
+N=398, states=50, cycles=8
+
+P1 Baseline  R²_within=-0.0007  N=398
+  unemp_rate                             -0.0024  (0.0103)  
+  income_growth                          -0.0056  (0.0078)  
+
+P2 Gas×Exp (YoY)  R²_within=0.0077  N=398
+  gasyoy_x_exp                           -0.1157  (0.0424)  ***
+  unemp_rate                             -0.0021  (0.0101)  
+  income_growth                          -0.0047  (0.0078)  
+
+P5 Gas^W×Exp (preferred)  R²_within=0.0181  N=398
+  gasw_x_exp                             -0.0296  (0.0067)  ***
+  unemp_rate                             -0.0003  (0.0104)  
+  income_growth                          -0.0067  (0.0075)  
+
+P6 Gas6m×Exp (robustness)  R²_within=0.0176  N=398
+  gas6m_x_exp                            -0.0283  (0.0065)  ***
+  unemp_rate                             -0.0002  (0.0104)  
+  income_growth                          -0.0066  (0.0075)  
+
+======================================================================
+TABLE 2C: EXTENDED HISTORICAL MIDTERM SAMPLE (1974-2022, 13 cycles, incl. calibrated)
+======================================================================
+N=743, cycles=12
+
+E5 Gas^W×Exp extended  R²_within=0.0067  N=743
+  gasw_x_exp                             -0.0137  (0.0035)  ***
+  unemp_rate                              0.0006  (0.0049)  
+  income_growth                           0.0014  (0.0046)  
+
+======================================================================
+TABLE 3: PRICE ASYMMETRY (midterm primary sample)
+======================================================================
+
+A1 Asymmetry midterms  R²_within=0.0008  N=394
+  gasup_x_exp                            -0.0118  (0.0760)  
+  gasdown_x_exp                          -0.0592  (0.0576)  
+  unemp_rate                             -0.0008  (0.0105)  
+  income_growth                           0.0037  (0.0073)  
+
+A2 Asymmetry presidential  R²_within=0.1193  N=398
+  gasup_x_exp                             0.2195  (0.0862)  **
+  gasdown_x_exp                          -0.5195  (0.1134)  ***
+  unemp_rate                             -0.0034  (0.0096)  
+  income_growth                          -0.0017  (0.0069)  
+
+======================================================================
+TABLE 4: SPR TIMING MODELS
+======================================================================
+
+T1 Basic window  R²=0.1725  N=2274
+  in_midterm_window_16w                     0.7580  (0.5848)  
+  in_pres_window_16w                        0.1290  (0.0961)  
+  gas_price                                 1.1674  (0.1629)  ***
+
+T2 ×High gas  R²=0.1749  N=2274
+  in_midterm_window_16w                     1.2086  (1.2063)  
+  mid_x_gas_high                           -0.9858  (1.2468)  
+
+T4 Placebo (+26wks)  R²=0.1702  N=2274
+  placebo_window                            0.4825  (0.1144)  ***
+  gas_price                                 1.1369  (0.1684)  ***
+
+T3 Within-window proximity  R²=0.0828  N=168
+  weeks_inv                                -0.0667  (0.0897)  
+  gas_price                                -0.1410  (0.8720)  
+Figure 1 saved.
+Figure 2 saved.
+Figure 3 saved.
+Figure 4 saved.
+
+=== Summary statistics ===
+MIDTERM sample:
+  pres_share                           N= 394  mean=  0.472  sd=0.130  min=0.000  max=1.000
+  swing                                N= 394  mean= -0.002  sd=0.192  min=-0.626  max=0.755
+  gas_3m                               N= 394  mean=  2.301  sd=0.935  min=1.002  max=3.635
+  gas_yoy                              N= 394  mean=  0.023  sd=0.115  min=-0.145  max=0.180
+  gas_weighted                         N= 394  mean=  2.352  sd=0.992  min=1.015  max=3.874
+  spr_drawdown_3m_mb                   N= 394  mean=  7.794  sd=23.207  min=-10.553  max=68.339
+  gas_exposure_idx                     N= 394  mean=  0.004  sd=0.998  min=-3.301  max=1.644
+  unemp_rate                           N= 394  mean=  5.511  sd=2.193  min=1.000  max=12.861
+  income_growth                        N= 394  mean=  2.676  sd=1.772  min=-2.536  max=7.913
+PRESIDENTIAL sample:
+  pres_share                           N= 398  mean=  0.485  sd=0.141  min=0.000  max=1.000
+  swing                                N= 398  mean=  0.004  sd=0.196  min=-0.774  max=0.755
+  gas_3m                               N= 398  mean=  2.132  sd=0.893  min=1.119  max=3.688
+  gas_yoy                              N= 398  mean=  0.065  sd=0.147  min=-0.175  max=0.309
+  gas_weighted                         N= 398  mean=  2.139  sd=0.893  min=1.123  max=3.606
+  gas_exposure_idx                     N= 398  mean=  0.001  sd=0.994  min=-3.301  max=1.644
+  unemp_rate                           N= 398  mean=  6.092  sd=1.943  min=1.000  max=11.928
+  income_growth                        N= 398  mean=  1.714  sd=2.811  min=-6.479  max=7.188
+
+=== Key coefficients ===
+M5 midterm Gas^W×Exp:      β=-0.0311  se=0.0060  p=0.0000
+P5 pres    Gas^W×Exp:      β=-0.0296  se=0.0067  p=0.0000
+E5 extended Gas^W×Exp:     β=-0.0137  se=0.0035  p=0.0001
+M2 midterm GasYoY×Exp:     β=0.0504  se=0.0806  p=0.5327
+A1 asym rising Gas:        β=-0.0118  se=0.0760  p=0.8762
+A1 asym falling Gas:       β=-0.0592  se=0.0576  p=0.3049
+N midterms=394, N presidential=398, N extended=743
+SD gas^W midterms=0.992, SD gas^W presidential=0.893
+
+=== REPLICATION COMPLETE (v2.0) ===
+Primary midterm sample   : 394 obs, 8 cycles (1994-2022)
+Primary presidential sample: 398 obs, 8 cycles (1992-2020)
+Extended historical midterm: 743 obs, 13 cycles (1974-2022)
+Outputs: data/, output/, figures/
