@@ -1107,8 +1107,206 @@ for sample_name, stats_dict in [('Midterms 1994-2022', stats_mid),
 pd.DataFrame(stat_rows).to_excel(writer, sheet_name='Summary_Stats', index=False)
 writer.close()
 
+# ─────────────────────────────────────────────────────────────────────────────
+# SECTION 16: FEW-SHOCKS ROBUSTNESS
+#
+# With election-year fixed effects, the identifying variation in β comes from
+# only T=8 aggregate gas-price shocks (one per election cycle), not from 394
+# independent observations.  The Frisch-Waugh-Lovell theorem implies:
+#
+#   β̂  =  Σ_t (g_t − ḡ) d_t  /  Σ_t (g_t − ḡ)²
+#
+# where d_t is the within-year cross-state OLS slope of partialled-out swing
+# on demeaned exposure (one number per year).  This 8-point bivariate OLS
+# exactly reproduces the full-panel estimate and exposes three natural checks:
+#
+#   (a) Influence decomposition: scatter d_t × gas_t to show which years drive β.
+#   (b) Leave-one-election-out (LOEO): drop each cycle and re-estimate from
+#       the remaining 7 points.
+#   (c) Permutation inference: enumerate all 8! = 40,320 permutations of the
+#       8 gas-price values across years; compare actual β̂ to the distribution.
+# ─────────────────────────────────────────────────────────────────────────────
+
+from itertools import permutations as _perms
+
+print("\n" + "=" * 70)
+print("SECTION 16: FEW-SHOCKS ROBUSTNESS (Frisch-Waugh decomposition)")
+print("=" * 70)
+
+
+def few_shocks_analysis(panel_df, years, sample_label):
+    """
+    Decompose β̂ into T year-specific slopes (d_t), run LOEO, and perform
+    exact permutation inference (all T! permutations).
+
+    Returns a dict with keys:
+        d_t, gas_t, beta_fw, beta_perm_dist, loeo_coefs, perm_pval
+    """
+    T = len(years)
+
+    # ── Step 1: Residualise swing on state FE + year FE + controls ──────────
+    df = panel_df[panel_df['year'].isin(years)].dropna(
+        subset=['swing', 'gas_exposure_idx', 'unemp_rate',
+                'income_growth', 'gas_weighted'])
+    df = df[df['swing'].abs() < 0.80].copy()
+    df_idx = df.set_index(['state_po', 'year'])
+
+    r_base = PanelOLS.from_formula(
+        'swing ~ unemp_rate + income_growth + EntityEffects + TimeEffects',
+        data=df_idx, drop_absorbed=True, check_rank=False)
+    res_base = r_base.fit(cov_type='clustered', cluster_entity=True)
+    df_idx = df_idx.copy()
+    df_idx['resid'] = res_base.resids
+    df = df_idx.reset_index()
+
+    # ── Step 2: Year-specific cross-state slopes d_t ─────────────────────────
+    exp_mean = df['gas_exposure_idx'].mean()
+    d_vals, g_vals, yr_labels = [], [], []
+
+    for yr in years:
+        sub = df[df['year'] == yr]
+        E   = sub['gas_exposure_idx'].values - exp_mean     # demeaned exposure
+        e   = sub['resid'].values                           # partialled swing
+        SSxx = np.dot(E, E)
+        if SSxx < 1e-12:
+            continue
+        d_t = np.dot(E, e) / SSxx
+        g_t = sub['gas_weighted'].iloc[0]
+        d_vals.append(d_t)
+        g_vals.append(g_t)
+        yr_labels.append(yr)
+
+    d_vals = np.array(d_vals)
+    g_vals = np.array(g_vals)
+
+    # ── Step 3: Frisch-Waugh β̂ (bivariate OLS on T points) ─────────────────
+    g_demeaned = g_vals - g_vals.mean()
+    beta_fw    = np.dot(g_demeaned, d_vals) / np.dot(g_demeaned, g_demeaned)
+    print(f"\n{sample_label}: Frisch-Waugh β̂ = {beta_fw:.4f}  "
+          f"(T={len(yr_labels)}, panel estimate = {c_m5:.4f} / {c_p5:.4f})")
+
+    # ── Step 4: Leave-one-election-out ───────────────────────────────────────
+    loeo = []
+    for drop_idx in range(len(yr_labels)):
+        mask   = np.arange(len(yr_labels)) != drop_idx
+        g_sub  = g_vals[mask]
+        d_sub  = d_vals[mask]
+        gd     = g_sub - g_sub.mean()
+        if np.dot(gd, gd) < 1e-12:
+            loeo.append((yr_labels[drop_idx], np.nan))
+            continue
+        b_loeo = np.dot(gd, d_sub) / np.dot(gd, gd)
+        loeo.append((yr_labels[drop_idx], b_loeo))
+        print(f"  LOEO drop {yr_labels[drop_idx]:4d}: β̂ = {b_loeo:.4f}")
+
+    # ── Step 5: Exact permutation inference (all T! permutations) ───────────
+    perm_betas = []
+    for perm in _perms(range(len(g_vals))):
+        g_p    = g_vals[list(perm)]
+        gd_p   = g_p - g_p.mean()
+        denom  = np.dot(gd_p, gd_p)
+        if denom < 1e-12:
+            continue
+        perm_betas.append(np.dot(gd_p, d_vals) / denom)
+
+    perm_betas = np.array(perm_betas)
+    perm_pval  = np.mean(np.abs(perm_betas) >= np.abs(beta_fw))
+    print(f"  Permutation p-value (two-sided, {len(perm_betas)} perms): "
+          f"{perm_pval:.4f}")
+
+    return dict(d_vals=d_vals, g_vals=g_vals, yr_labels=yr_labels,
+                beta_fw=beta_fw, loeo=loeo,
+                perm_betas=perm_betas, perm_pval=perm_pval)
+
+
+res_mid  = few_shocks_analysis(panel, PRIMARY_MID_YEARS,  'Midterms 1994-2022')
+res_pres = few_shocks_analysis(panel, PRIMARY_PRES_YEARS, 'Presidential 1992-2020')
+
+# ── Save permutation p-values to key_numbers ─────────────────────────────────
+with open('output/key_numbers.txt', 'a') as f:
+    f.write(f"perm_pval_mid={res_mid['perm_pval']:.4f}\n")
+    f.write(f"beta_fw_mid={res_mid['beta_fw']:.4f}\n")
+    f.write(f"perm_pval_pres={res_pres['perm_pval']:.4f}\n")
+    f.write(f"beta_fw_pres={res_pres['beta_fw']:.4f}\n")
+
+# ─────────────────────────────────────────────────────────────────────────────
+# FIGURE 5: Influence decomposition + LOEO + Permutation distribution
+# ─────────────────────────────────────────────────────────────────────────────
+
+fig, axes = plt.subplots(2, 3, figsize=(15, 9))
+plt.subplots_adjust(wspace=0.38, hspace=0.50)
+
+COLORS = {'mid': '#1a5276', 'pres': '#117a65'}
+
+for row, (res, lbl, col, full_beta) in enumerate([
+    (res_mid,  'Midterms',     COLORS['mid'],  c_m5),
+    (res_pres, 'Presidential', COLORS['pres'], c_p5),
+]):
+    d_vals    = res['d_vals']
+    g_vals    = res['g_vals']
+    yr_labels = res['yr_labels']
+    loeo      = res['loeo']
+    perm_betas = res['perm_betas']
+    beta_fw    = res['beta_fw']
+    perm_pval  = res['perm_pval']
+
+    # ── Panel A: Influence scatter (d_t vs Gas_t) ──────────────────────────
+    ax = axes[row, 0]
+    ax.scatter(g_vals, d_vals, color=col, s=60, zorder=3)
+    for yr, g, d in zip(yr_labels, g_vals, d_vals):
+        ax.annotate(str(yr), (g, d), textcoords='offset points',
+                    xytext=(5, 3), fontsize=7.5, color='#333')
+    # Fit line (FW estimate)
+    g_lin  = np.linspace(g_vals.min() * 0.95, g_vals.max() * 1.03, 100)
+    g_dmd  = g_vals - g_vals.mean()
+    d_fit  = d_vals.mean() + beta_fw * (g_lin - g_vals.mean())
+    ax.plot(g_lin, d_fit, color=col, lw=1.5, ls='--', alpha=0.7)
+    ax.axhline(0, color='black', lw=0.7, ls=':')
+    ax.set_xlabel('Pre-election gas price (\\$/gal)', fontsize=9)
+    ax.set_ylabel('Within-year exposure slope $d_t$', fontsize=9)
+    ax.set_title(f'{lbl}: Influence decomposition\n'
+                 f'slope = $\\hat{{\\beta}}_{{FW}}$ = {beta_fw:.3f}',
+                 fontsize=9.5, fontweight='bold')
+
+    # ── Panel B: Leave-one-election-out ────────────────────────────────────
+    ax = axes[row, 1]
+    loeo_yrs  = [l[0] for l in loeo]
+    loeo_coef = [l[1] for l in loeo]
+    xs = np.arange(len(loeo_yrs))
+    ax.barh(xs, loeo_coef, color=col, alpha=0.75, height=0.6)
+    ax.axvline(full_beta, color='black', lw=1.2, ls='--',
+               label=f'Full-sample $\\hat{{\\beta}}$ = {full_beta:.3f}')
+    ax.axvline(0, color='#aaa', lw=0.7, ls=':')
+    ax.set_yticks(xs)
+    ax.set_yticklabels([f'Drop {y}' for y in loeo_yrs], fontsize=8)
+    ax.set_xlabel('$\\hat{\\beta}$ (leave-one-out)', fontsize=9)
+    ax.set_title(f'{lbl}: Leave-one-election-out', fontsize=9.5, fontweight='bold')
+    ax.legend(fontsize=7.5)
+    ax.invert_yaxis()
+
+    # ── Panel C: Permutation distribution ─────────────────────────────────
+    ax = axes[row, 2]
+    ax.hist(perm_betas, bins=40, color=col, alpha=0.65, edgecolor='white',
+            linewidth=0.5, density=True)
+    ax.axvline(beta_fw, color='#b03a2e', lw=2.0,
+               label=f'Actual $\\hat{{\\beta}}$ = {beta_fw:.3f}')
+    ax.axvline(-beta_fw, color='#b03a2e', lw=1.2, ls='--', alpha=0.6)
+    ax.set_xlabel('Permuted $\\hat{\\beta}$', fontsize=9)
+    ax.set_ylabel('Density', fontsize=9)
+    ax.set_title(f'{lbl}: Permutation distribution\n'
+                 f'({len(perm_betas):,} perms, $p_{{perm}}$ = {perm_pval:.3f})',
+                 fontsize=9.5, fontweight='bold')
+    ax.legend(fontsize=7.5)
+
+plt.savefig('figures/Figure5.pdf', bbox_inches='tight')
+plt.savefig('figures/Figure5.png', bbox_inches='tight', dpi=200)
+plt.close()
+print("Figure 5 saved.")
+
 print("\n=== REPLICATION COMPLETE (v2.0) ===")
 print(f"Primary midterm sample   : {n_mid} obs, 8 cycles (1994-2022)")
 print(f"Primary presidential sample: {n_pres} obs, 8 cycles (1992-2020)")
 print(f"Extended historical midterm: {n_ext} obs, 13 cycles (1974-2022)")
+print(f"Permutation p-values: midterms={res_mid['perm_pval']:.3f}, "
+      f"presidential={res_pres['perm_pval']:.3f}")
 print("Outputs: data/, output/, figures/")
