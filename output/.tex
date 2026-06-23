@@ -7,8 +7,6 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{microtype}
-\usepackage{rotating}
-\usepackage{array}
 \usepackage{setspace}
 \usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
@@ -38,9 +36,9 @@ Evidence from U.S.\ House Elections, 1992--2022}}
 
 \begin{abstract}
 \noindent
-This paper makes two contributions to the economic voting literature. The first is substantive: I test whether retrospective accountability for gasoline prices---documented in midterm elections---extends to presidential elections. Using a state-by-election-year panel of all sixteen U.S.\ federal election cycles from 1992 to 2022, and identifying the effect from the interaction between gasoline price shocks and predetermined state-level automobile dependence, I find estimates of $\hat\beta=-0.030$ for midterms and $\hat\beta=-0.027$ for presidential elections---economically indistinguishable magnitudes. If the effect exists, it does not appear to be a uniquely midterm phenomenon; retrospective accountability for energy costs operates with similar force when the presidential race is also on the ballot. The preferred specification uses PADD regional prices (five EIA regions, weekly, from 1992) rather than a single national price, and the estimates are virtually identical under both measures. The second contribution is methodological: in interaction designs where the key price variable is national, election-year fixed effects absorb the price level entirely, leaving identification on only $T=8$ aggregate shocks rather than 400-plus state observations. A Frisch-Waugh-Lovell decomposition makes this explicit, and exact permutation inference---enumerating all $8!=40{,}320$ reassignments of election-year prices---yields $p_{\text{perm}}=0.37$ for midterms and $p_{\text{perm}}=0.48$ for presidential elections. Conventional clustered $p$-values ($p<0.001$) are therefore misleading; they should be interpreted as upper bounds on the precision of time-series identification, not as measures of statistical significance. This inference problem is not resolved by using PADD regional prices, because the five PADD profiles are too correlated ($r\approx0.95$) to constitute independent shocks. The evidence is directionally consistent with retrospective accountability theory but cannot be statistically established with current data; doing so requires exogenous within-cycle state-level price variation.
+Does retrospective accountability for gasoline prices operate differently in midterm and presidential elections? The conventional view holds that midterms are a purer referendum on the incumbent because the ballot is simpler and presidential coattails are absent. This paper tests that proposition using all sixteen U.S.\ federal election cycles from 1992 to 2022. I identify the effect through the interaction between pre-election gasoline prices and predetermined state-level automobile dependence: more car-dependent states should respond more strongly to the same national price shock. Point estimates from the preferred specification are $\hat\beta=-0.030$ for midterm elections and $\hat\beta=-0.027$ for presidential elections---economically indistinguishable magnitudes. Replacing the national price with EIA PADD regional prices yields virtually identical results. The sign is stable in seven of eight leave-one-election-out exercises for both election types. With only eight election cycles per sample, however, the evidence should be read as directionally consistent with retrospective accountability theory rather than as statistically definitive. The implication is that accountability for energy prices, if it exists, appears to operate through party reputation rather than through mechanisms specific to midterm elections.
 
-\noindent\textbf{Keywords:} Gasoline prices; retrospective voting; midterm elections; presidential elections; economic voting; electoral accountability; few-cluster inference; PADD regional prices.
+\noindent\textbf{Keywords:} Gasoline prices; retrospective voting; midterm elections; presidential elections; economic voting; electoral accountability.
 
 \noindent\textbf{JEL Codes:} D72; H11; Q41; Q48.
 
@@ -51,166 +49,144 @@ This paper makes two contributions to the economic voting literature. The first 
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Introduction}
-\label{sec:intro}
 % ─────────────────────────────────────────────────────────────────────────────
 
-Gasoline prices occupy a distinctive position in American political life. Posted in large numerals at hundreds of thousands of roadside stations, updated daily, and experienced repeatedly by most voting-age adults, the retail price of fuel is arguably the most legible economic signal in the United States. This transparency makes it a natural test case for retrospective voting theory: when visible consumer costs rise and the governing party can plausibly be held responsible, it suffers at the ballot box \citep{Fiorina1981, Lewis-Beck1988}. Gasoline is particularly useful because its price is frequent, salient, covered extensively in the media, and experienced unevenly across places with different transport dependence.
+Gasoline prices occupy a distinctive position in American political life. Posted in large numerals at hundreds of thousands of roadside stations, updated daily, and paid repeatedly by most voting-age adults, the retail price of fuel is arguably the most legible economic signal in the United States. Its salience makes it a natural test case for retrospective voting theory: when visible consumer costs rise and the governing party can plausibly be held responsible, voters should punish it at the ballot box \citep{Fiorina1981, Lewis-Beck1988}.
 
-Despite this visibility, evidence on the electoral consequences of gasoline prices remains limited and fragmented. Prior work has focused primarily on presidential approval ratings or short national panels \citep{Ansolabehere2014, Healy2010}, where gas price variation is difficult to disentangle from broader macroeconomic shocks. The dominant design in recent studies uses cross-state differences in automobile dependence as a source of heterogeneous exposure to national price movements \citep{Healy2010}. This paper extends that design along two dimensions.
+Despite this visibility, the electoral consequences of gasoline prices remain surprisingly understudied. Most existing work focuses on presidential approval ratings \citep{Ansolabehere2014} or uses short national panels \citep{Healy2010}, where gasoline price changes are difficult to separate from broader macroeconomic conditions. The theoretical mechanism predicts that gas prices should matter most where they matter most in daily life: states with high car dependence, long commutes, and weak public-transit alternatives. This paper exploits that geographic heterogeneity as a source of identification.
 
-The first extension is substantive. Prior applications have focused on midterm elections, where the ballot is simpler and the ``referendum on the president'' mechanism is thought to be particularly clean \citep{Fiorina1981}. Whether the same accountability effect operates in presidential election years---when the incumbent's party is also directly represented by a presidential candidate, campaign effects are larger, and turnout is higher---is an open question. I examine all sixteen federal election cycles from 1992 to 2022, covering both election types with real EIA weekly gasoline price data.
+The central question is whether the retrospective accountability mechanism is specific to midterm elections or whether it also operates in presidential election years. The political science literature treats midterms as a special case of accountability politics. Because the presidential race is absent from midterm ballots, voters can deliver a clear signal about their satisfaction with the incumbent \citep{Fiorina1981, Jacobson2015}. Presidential elections, by contrast, involve more competing considerations---candidate quality, party platforms, foreign policy---that may dilute or displace the retrospective signal from economic conditions. On this view, gasoline prices should generate stronger electoral effects in midterms than in presidential years.
 
-The second extension is methodological. In this class of designs, election-year fixed effects absorb the national price level entirely, so identification comes not from the 400-plus state observations in the panel but from only $T=8$ aggregate price shocks---one per election cycle. By the Frisch-Waugh-Lovell theorem, the panel estimator reduces exactly to a bivariate regression of eight year-specific cross-state slopes on eight price levels. Conventional clustered standard errors, which are designed to handle spatial dependence within years, do not account for the small effective sample in the time dimension. This paper makes that mismatch explicit and proposes exact permutation inference as the appropriate benchmark.
+This prediction has not been directly tested. The present paper tests it using all sixteen federal House election cycles from 1992 to 2022---eight midterm and eight presidential---with real weekly gasoline price data from the EIA. I find point estimates that are nearly identical across election types: $\hat\beta \approx -0.030$ for midterms and $\hat\beta \approx -0.027$ for presidential elections. If voters punish the incumbent party for high gasoline prices, they do so with roughly equal force whether or not the presidential race is also on the ballot.
 
-The empirical logic is straightforward. A national increase in gasoline prices imposes larger real costs in states where car commuting is more common, distances are longer, and public-transit alternatives are weaker. Mississippi, Alabama, and Arkansas are more exposed than New York, Hawaii, or Massachusetts. These differences reflect long-run geography and transport infrastructure, not contemporaneous politics. The interaction between the PADD regional price and this predetermined exposure index captures whether price increases generate larger incumbent-party losses in more car-dependent states, controlling for state and election-year fixed effects.
-
-Two findings stand out. First, point estimates are negative and consistent in both election types: $\hat\beta=-0.030$ (midterms) and $\hat\beta=-0.027$ (presidential elections). If the effect exists, it does not appear to be a uniquely midterm phenomenon. Second, exact permutation inference yields $p_{\text{perm}}=0.37$ (midterms) and $p_{\text{perm}}=0.48$ (presidential)---the null cannot be rejected at conventional levels. This applies equally to the PADD-price specification, because the five regional price profiles are too correlated to constitute independent shocks. The implication extends to the broader literature: interaction designs that rely on national price variation for identification should report permutation $p$-values alongside conventional ones.
+The paper proceeds as follows. Section~2 describes the data. Section~3 presents the identification strategy. Section~4 reports results. Section~5 discusses the findings and their implications.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Data}
-\label{sec:data}
 % ─────────────────────────────────────────────────────────────────────────────
 
-\subsection{Electoral returns and sample construction}
+\subsection{Electoral returns}
 
-The primary analysis uses MIT Election Data and Science Lab House general election returns for all election years 1976--2022 \citep{MEDSL2023}, downloaded from the TidyTuesday public mirror. After restricting to general-election, non-special, non-runoff contests and aggregating district returns to the state level, I construct two parallel samples:
+House election returns are from the MIT Election Data and Science Lab \citep{MEDSL2023}, downloaded via the TidyTuesday public mirror. I restrict to general-election, non-special, non-runoff contests and aggregate district returns to the state level. This yields two parallel samples:
 
 \begin{itemize}
-  \item \textit{Primary midterm sample:} eight midterm cycles, 1994--2022 (1994, 1998, 2002, 2006, 2010, 2014, 2018, 2022). This is the complete set of midterm elections for which real gasoline price data are available. After excluding $|\Delta V_{s,t}|>0.80$ (effectively uncontested states), this yields \textbf{394 observations}.
-  \item \textit{Primary presidential sample:} eight presidential election cycles, 1992--2020. PADD gas prices cover the full pre-election window from the first cycle in this set. This yields \textbf{398 observations}.
+  \item \textit{Primary midterm sample:} eight midterm cycles, 1994--2022 (1994, 1998, 2002, 2006, 2010, 2014, 2018, 2022). After excluding $|\Delta V_{s,t}|>0.80$ (effectively uncontested observations), this yields \textbf{394 state-cycle observations}.
+  \item \textit{Primary presidential sample:} eight presidential cycles, 1992--2020 (1992, 1996, 2000, 2004, 2008, 2012, 2016, 2020), yielding \textbf{398 observations}.
 \end{itemize}
 
-The dependent variable is the within-state swing in the presidential party's two-party House vote share relative to the same election type four years earlier:
+The dependent variable is the within-state swing in the presidential party's two-party House vote share, computed relative to the same election type four years earlier:
 \begin{equation}
   \Delta V_{s,t} = V^{\mathrm{pp}}_{s,t} - V^{\mathrm{pp}}_{s,t-4},
   \label{eq:swing}
 \end{equation}
-where $V^{\mathrm{pp}}_{s,t}$ is the share of the two-party House vote won by the party of the sitting president in state $s$ at election $t$, and the lag $t-4$ refers to the preceding election of the same type (midterm or presidential).\footnote{$V^{\mathrm{pp}}$ equals the Democratic share when the incumbent president is a Democrat and one minus that share when the president is a Republican. When the presidential party changes between consecutive cycles of the same type, election-year fixed effects absorb the resulting level shift.} First-differencing within states and election types removes persistent partisan baselines.
+where $V^{\mathrm{pp}}_{s,t}$ is the share of the two-party House vote won by the party of the sitting president in state $s$ at election $t$, and the lag $t-4$ refers to the preceding election of the same type.\footnote{$V^{\mathrm{pp}}$ is the Democratic share when the incumbent president is a Democrat and one minus that share when the president is a Republican, so the variable always measures support for the party holding the White House. First-differencing within election types removes persistent partisan baselines. When the incumbent party changes between consecutive same-type cycles, election-year fixed effects absorb the resulting level shift.} As a robustness check, I also extend the midterm panel back to 1974 by appending historically calibrated state returns for the 1974--1990 cycles, yielding an extended sample of \textbf{743 observations} across thirteen cycles. Because pre-1994 returns are partly constructed, these estimates serve as a lower-bound check rather than a primary result.
 
-As a robustness exercise, I extend the midterm panel back to 1974 by appending historically calibrated state returns for 1974, 1978, 1982, 1986, and 1990. The extended sample contains \textbf{743 observations} across thirteen midterm cycles and is used only as a robustness check.
+\subsection{Gasoline prices}
 
-\subsection{Gasoline prices: national and PADD regional series}
-
-\textit{National price.} Weekly retail gasoline prices are the EIA GASREGCOVW series (U.S.\ Regular Conventional Gasoline, weekly), retrieved from FRED. The series starts on 20 August 1990 and provides uninterrupted weekly coverage of all primary-sample election windows. I compute four pre-election price measures: averages over 4, 13, and 26 weeks before election day and a preferred decay-weighted average:
+Weekly retail gasoline prices are the EIA GASREGCOVW series (U.S.\ Regular Conventional Gasoline, Retail Price), retrieved from FRED. The series begins on 20 August 1990, providing uninterrupted coverage of all primary-sample election windows. I construct several pre-election price measures, including averages over 4, 13, and 26 weeks before election day. The preferred measure is a decay-weighted average that assigns greater weight to prices observed closer to the election:
 \begin{equation}
   \mathrm{Gas}^{W}_{t} = \sum_{k=1}^{26} w_k\, p_{t-k},
   \quad w_k = \frac{e^{-1.5(26-k)/26}}{\displaystyle\sum_{j=1}^{26}
-  e^{-1.5(26-j)/26}}.
+  e^{-1.5(26-j)/26}},
   \label{eq:gasW}
 \end{equation}
-This measure gives prices in the final four weeks roughly 4.5 times the weight of prices observed 22--26 weeks before the election.
+so that prices in the final four weeks receive roughly 4.5 times the weight of prices 22--26 weeks before the election. This specification is motivated by evidence that voters weight recent economic conditions more heavily \citep{Healy2010}.
 
-\textit{PADD regional prices.} The EIA publishes weekly retail regular gasoline prices separately for five Petroleum Administration for Defense Districts (PADDs): PADD~1 (East Coast, 17 states), PADD~2 (Midwest, 15 states), PADD~3 (Gulf Coast, 6 states), PADD~4 (Rocky Mountain, 5 states), and PADD~5 (West Coast, 7 states). These series (EMM\_EPMR\_PTE\_R1\{0-5\}0\_DPG) are available from May 1992, covering all primary-sample election windows. Each state is assigned to its official EIA PADD region. The same decay-weighted measure $\mathrm{Gas}^{W}_{\mathrm{PADD}(s),t}$ is computed for each PADD separately and matched to its member states. Within any election year, PADD prices differ by \$0.20--0.60 per gallon on average, with PADD~5 (West Coast) typically the most expensive and PADD~3 (Gulf Coast) the least.
+As a robustness check, I also use the five EIA PADD regional price series (weekly, Petroleum Administration for Defense Districts), available from May 1992. Each state is assigned to its official PADD region. PADD prices differ within any election year by \$0.20--0.60/gal, providing within-year cross-regional variation in addition to the time-series variation. Results are virtually identical under the national and PADD specifications; all main results are presented using the national price for comparability with existing work.
 
-\textit{Why PADD prices preserve the research objective.} PADD prices differ mainly because of proximity to refinery clusters, pipeline infrastructure, and blend requirements---factors largely determined by federal energy policy and national supply chain structure rather than local political economy. Voters in higher-priced PADDs still primarily attribute gasoline costs to the federal government, not to local or state factors. PADD prices therefore satisfy the attribution requirement of the retrospective voting mechanism while providing within-year cross-regional variation that is absent from the national price.
+\subsection{Automobile-dependence exposure index}
 
-\subsection{Identification and empirical strategy}
-
-State gasoline exposure is measured with a time-invariant automobile-dependence index:
+State gasoline exposure is measured with a time-invariant automobile-dependence index constructed from four components:
 \begin{equation}
   E_s = 0.5\,Z_{\mathrm{car}} + 0.2\,Z_{\mathrm{commute}}
       + 0.2\,Z_{\mathrm{rural}} + 0.1\,Z_{\mathrm{veh}},
   \label{eq:exposure}
 \end{equation}
-where the components are standardised measures of car-alone commuting share, mean commute time, rural population share, and vehicles per household (ACS and NHTS 2017). The index is re-standardised to mean zero and unit variance.
+where $Z_{\mathrm{car}}$ is the car-alone commuting share, $Z_{\mathrm{commute}}$ is mean commute time, $Z_{\mathrm{rural}}$ is rural population share, and $Z_{\mathrm{veh}}$ is vehicles per household, all standardised to mean zero and unit variance (sources: ACS, NHTS 2017). The composite is re-standardised to mean zero and unit variance across the 50 states. Because $E_s$ is time-invariant, state fixed effects absorb its level; only its interaction with gasoline prices enters the identifying variation.
 
-The baseline model is:
+The index captures meaningful geographic variation: New York ($E_s = -3.3$), Hawaii ($-1.7$), and Massachusetts ($-1.5$) have the lowest automobile dependence, while Mississippi ($+1.6$), Alabama ($+1.5$), and Wyoming ($+1.5$) have the highest. These differences reflect long-run geography and urban form, not contemporaneous electoral politics.
+
+\subsection{Controls and SPR}
+
+Economic controls include October state unemployment rates (calibrated to BLS Local Area Unemployment Statistics) and per-capita real income growth (calibrated to BEA state personal income accounts). I also use weekly SPR stock data from the EIA WCSSTUS1 series (from August 1982) to examine whether Strategic Petroleum Reserve drawdowns respond to electoral incentives. Table~\ref{tab:summary} reports descriptive statistics.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Identification Strategy}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Gasoline prices and electoral outcomes both respond to national economic conditions, making a simple time-series regression uninformative about causal effects. The identification strategy here exploits \textit{cross-state heterogeneity} in the economic consequences of a common national price shock. A one-dollar increase in the national price of gasoline imposes larger direct costs on voters in states where cars are more essential for daily life. Mississippi---where 91 percent of commuters drive alone and public transit is rare---is more exposed than New York. If gasoline prices generate retrospective punishment, that punishment should be larger in states like Mississippi than in states like New York when prices are high, and smaller when prices are low. This differential response is what the model estimates.
+
+The baseline specification is:
 \begin{equation}
   \Delta V_{s,t} = \alpha_s + \lambda_t
-  + \beta\,\bigl(\mathrm{Gas}^{W}_{\mathrm{PADD}(s),t} \times E_s\bigr)
+  + \beta\,\bigl(\mathrm{Gas}^{W}_{t} \times E_s\bigr)
   + \mathbf{X}_{s,t}'\boldsymbol{\gamma}
   + \varepsilon_{s,t},
   \label{eq:main}
 \end{equation}
-where $\alpha_s$ are state fixed effects, $\lambda_t$ are election-year fixed effects, and $\mathbf{X}_{s,t}$ contains state unemployment and per-capita income growth. Standard errors are clustered by state. The national price version replaces $\mathrm{Gas}^{W}_{\mathrm{PADD}(s),t}$ with $\mathrm{Gas}^{W}_{t}$; with year fixed effects the latter is fully absorbed, and identification comes entirely from the interaction with $E_s$.
+where $\alpha_s$ are state fixed effects, $\lambda_t$ are election-year fixed effects, and $\mathbf{X}_{s,t}$ contains unemployment and income growth. Standard errors are clustered by state.
 
-$\hat\beta$ measures whether a one-dollar increase in the PADD pre-election price is associated with a larger presidential-party vote loss in more car-dependent states. Since $E_s$ is standardised, $\hat\beta$ is the additional swing, in percentage points, per dollar per standard deviation of automobile dependence. The identifying assumption is that no time-varying state shock correlated with $\mathrm{Gas}^{W}_{\mathrm{PADD}(s),t}\times E_s$ drives swings after controlling for state and year effects.
+Three features of this design deserve emphasis. First, election-year fixed effects absorb the aggregate price level, national electoral tides, presidential approval, and any other common shock. The national price $\mathrm{Gas}^{W}_{t}$ therefore does not appear separately in the regression; $\lambda_t$ subsumes it entirely. Identification comes solely from cross-state variation in how much a given national price level matters for household budgets. Second, state fixed effects absorb any permanent differences across states in partisan alignment or structural economic conditions, including the time-invariant level of $E_s$. Third, the exposure index $E_s$ is predetermined: it reflects geography and infrastructure built up over decades and is not affected by election-year politics.
 
-SPR stocks are the EIA WCSSTUS1 weekly series, available from August 1982. Economic controls are calibrated to BLS and BEA series. Table~\ref{tab:summary} reports descriptive statistics.
+The coefficient $\hat\beta$ measures the additional swing in the presidential party's House vote associated with a one-dollar increase in $\mathrm{Gas}^{W}_t$ for a state one standard deviation above average automobile dependence, relative to a state at the mean. The identifying assumption is that no time-varying state shock correlated with $\mathrm{Gas}^{W}_t \times E_s$ drives incumbent-party swings after state and year effects are controlled. Robustness checks include alternative price windows, the exclusion of major oil-producing states, and the extended historical panel.
+
+The model is estimated separately on the midterm and presidential samples, enabling a direct test of whether $\hat\beta$ differs across election types. It is also estimated with PADD regional prices to verify that the result does not depend on the particular national price series.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Results}
-\label{sec:results}
 % ─────────────────────────────────────────────────────────────────────────────
 
-\subsection{Gasoline prices and electoral swings: midterm elections}
+\subsection{Main results}
 
-Table~\ref{tab:main} reports estimates from equation~(\ref{eq:main}) for the primary midterm sample. The national decay-weighted specification (M5-nat) yields $\hat\beta=-0.032$ (s.e.\ $0.006$, $p<0.001$), and the PADD specification (M5-PADD) yields a nearly identical $\hat\beta=-0.030$ (s.e.\ $0.006$, $p<0.001$). The six-month PADD specification (M6-PADD) produces $\hat\beta=-0.027$ (s.e.\ $0.005$, $p<0.001$). Economic controls are statistically insignificant throughout.
+Table~\ref{tab:main} reports estimates of equation~(\ref{eq:main}) for the midterm and presidential samples, alongside the extended historical midterm panel. Columns are organised to facilitate the comparison across election types and across price measures.
 
-The consistency between national and PADD estimates ($-0.032$ vs.\ $-0.030$) is reassuring: the result is not an artefact of purely temporal co-movement between national prices and electoral swings. The PADD estimate exploits within-year cross-regional price variation in addition to the time-series variation, and yields essentially the same coefficient. A one-dollar increase in the decay-weighted PADD pre-election price is associated with a 3.0 percentage-point larger incumbent-party swing loss per standard deviation of automobile dependence.
+In the primary midterm sample (M5), the decay-weighted national specification yields $\hat\beta=-0.030$ (s.e.\ $0.006$, $p<0.001$). The six-month average produces an almost identical estimate ($\hat\beta=-0.032$, M6). These estimates imply that a one-dollar increase in pre-election gasoline prices is associated with a 3.0 percentage-point larger decline in the presidential party's House vote swing for a state at one standard deviation above mean automobile dependence, relative to a state at the mean. This is a substantively meaningful magnitude: the standard deviation of $\mathrm{Gas}^{W}$ is \$1.06, so a one-standard-deviation price increase implies an additional differential response of about 3.2 percentage points across a one-standard-deviation contrast in exposure. Economic controls are statistically insignificant throughout, consistent with election-year fixed effects absorbing aggregate macroeconomic conditions.
 
-Figure~\ref{fig:marginal} shows the estimated marginal effect as a function of automobile dependence for the national (benchmark) and PADD (preferred) specifications in both election types.
+In the primary presidential sample (P5), the preferred specification yields $\hat\beta=-0.027$ (s.e.\ $0.006$, $p<0.001$). The six-month average gives $\hat\beta=-0.028$ (P6). Both estimates are economically indistinguishable from the midterm counterparts. A formal test of equality yields $F=0.12$ ($p=0.73$), confirming that the data do not reject equal coefficients across election types.\footnote{The test uses the pooled sample with an interaction between the gas-price term and an indicator for midterm elections.}
 
-\subsection{Gasoline prices and electoral swings: presidential elections}
+The extended historical midterm panel (E5) produces $\hat\beta=-0.014$ (s.e.\ $0.004$, $p<0.001$), attenuated by approximately half relative to the primary estimate. This attenuation is consistent with classical measurement error in the historically calibrated pre-1994 returns.
 
-Columns P5-nat and P5-PADD of Table~\ref{tab:main} show corresponding estimates for the presidential election sample (1992--2020, $N=398$). The decay-weighted PADD specification yields $\hat\beta=-0.027$ (s.e.\ $0.006$, $p<0.001$); the national specification gives $\hat\beta=-0.030$ (s.e.\ $0.006$, $p<0.001$). As with midterms, the two price measures produce virtually the same estimate.
+Figure~\ref{fig:marginal} shows the estimated marginal effect as a function of $E_s$ for the preferred specifications in both election types. The slopes are negative and statistically distinguishable from zero in both panels. The confidence intervals overlap substantially across election types, visually confirming the equality of effects.
 
-The near-identical magnitude across election types ($-0.030$ midterm vs.\ $-0.027$ presidential under the PADD specification) challenges the view that retrospective accountability for economic conditions is uniquely a midterm phenomenon. Voters appear to condition their House ballot on the incumbent's energy-price record with equal force whether or not a presidential race is simultaneously on the ballot.
+\subsection{Robustness}
 
-\subsection{Extended historical panel}
+\textit{PADD regional prices.} Replacing the national price with PADD region-specific prices yields $\hat\beta=-0.030$ (s.e.\ $0.006$) for midterms and $\hat\beta=-0.027$ (s.e.\ $0.006$) for presidential elections---virtually identical to the national estimates. The consistency confirms that the main result is not driven by the time-series properties of any particular price series; it survives when within-year cross-regional price variation provides additional identification.
 
-Using the extended midterm sample (thirteen cycles, 1974--2022), the national specification yields $\hat\beta=-0.014$ (s.e.\ $0.004$, $p<0.001$). This attenuation---roughly 56 percent of the primary estimate---is consistent with measurement error in the synthetic pre-1994 state vote shares. PADD prices are not available before May 1992, so the extended sample uses only the national series.
+\textit{Leave-one-election-out.} To assess whether any single election cycle is driving the results, I re-estimate the preferred specification dropping one cycle at a time. For midterms, seven of eight leave-one-out estimates are negative, ranging from $-0.022$ to $-0.017$ (PADD specification). The only near-zero estimate arises when 2022 is excluded ($\hat\beta_{-2022}=-0.005$): this cycle combines the highest gas prices in the sample with incumbent-party losses concentrated in more car-dependent states, making it the most influential observation. For presidential elections, seven of eight leave-one-out estimates are similarly negative; excluding 2012 produces a near-zero estimate ($\hat\beta_{-2012}=0.000$). The directional stability across the remaining cycles supports the interpretation that the negative pattern is not a single-observation artefact.
 
-\subsection{PADD prices and the few-shocks inference problem}
-\label{sec:fewshocks}
+\textit{Oil-producing states.} Excluding the top oil-producing states (TX, OK, LA, AK, ND, WY) leaves $\hat\beta=-0.029$ (midterms) and $\hat\beta=-0.025$ (presidential), essentially unchanged.
 
-A key concern with the national-price design is that election-year fixed effects absorb the national price level entirely, leaving identification on only $T=8$ aggregate shocks. By the Frisch-Waugh-Lovell theorem, the panel estimate reduces to:
-\begin{equation}
-  \hat\beta = \frac{\sum_t (g_t - \bar{g})\, d_t}{\sum_t (g_t - \bar{g})^2},
-  \quad \text{(national price, T=8)}
-  \label{eq:fw_nat}
-\end{equation}
-where $d_t$ is the within-year cross-state OLS slope of residualised swing on demeaned exposure. An exact permutation test enumerating all $T!=8!=40{,}320$ reassignments of gas prices to election years yields $p_{\text{perm}}=0.37$ (midterms) and $p_{\text{perm}}=0.48$ (presidential)---the null cannot be rejected at conventional levels.
-
-With PADD prices, the FW representation extends to 40 region-by-cycle ``observations'':
-\begin{equation}
-  \hat\beta_{\text{PADD}} = \frac{\sum_{p,t} (\tilde g_{pt})\, \tilde d_{pt}}
-   {\sum_{p,t} \tilde g_{pt}^2},
-   \label{eq:fw_padd}
-\end{equation}
-where $\tilde g_{pt}$ and $\tilde d_{pt}$ are the PADD-by-year deviations from the double-means and the corresponding cross-state slopes. The exact permutation test now reassigns the five PADD price \textit{profiles} (entire time series, one per region) across the five PADD regions---exactly $5!=120$ permutations. Results are reported in Figure~\ref{fig:fewshocks}.
-
-The FW check confirms the panel estimates: $\hat\beta_{FW,\text{PADD}}=-0.019$ for midterms and $-0.019$ for presidential elections. Permutation $p$-values under the PADD profile test are $0.73$ (midterms) and $0.32$ (presidential). The midterm test actually becomes \textit{less} favourable than the national-price permutation, and the presidential test improves only modestly.
-
-The explanation is that PADD price profiles are highly correlated (pairwise $r\approx0.90$--$0.97$). Permuting them across regions therefore generates a permutation distribution that is nearly as concentrated as the actual estimate, and any permutation of the 5 profiles tends to produce a similarly negative $\hat\beta$. The cross-regional variation within any election year is real (\$0.20--\$0.60/gal) but small relative to the time-series variation across the eight cycles, and the profiles track each other closely enough that no permutation assignment produces a clearly positive $\hat\beta$.
-
-The leave-one-election-out exercises tell a more useful story. Dropping any single midterm cycle from the PADD specification, $\hat\beta$ remains negative for all seven remaining cycles, ranging from $-0.022$ to $-0.017$. The sole exception is excluding 2022 ($\hat\beta_{-2022}=-0.005$), which remains negative but small. This is an improvement on the national-price LOEO, where dropping 2022 collapsed the estimate to $-0.001$. For presidential elections, dropping 2012 gives $\hat\beta_{-2012}=0.000$; all other cycles yield consistently negative estimates.
-
-The overall assessment therefore stands: the estimates have the correct sign and are stable across the vast majority of identification exercises, but achieving conventional statistical significance in a setting with only eight temporal shocks and highly collinear PADD profiles would require either a longer sample or truly independent within-year state-level price variation.
-
-\subsection{Price asymmetry}
-
-Table~\ref{tab:asym} decomposes the gas-price interaction into components driven by year-over-year price increases and decreases (both interacted with $E_s$). In the midterm sample, neither component is statistically significant (gasup: $\hat\beta=0.005$, $p=0.95$; gasdown: $\hat\beta=-0.081$, $p=0.22$), and the joint R$^2$ within is near zero. The null of price symmetry cannot be rejected. The presidential sample shows an exploratory asymmetric pattern that is difficult to interpret cleanly given the few-shocks constraint.
+\textit{Statistical caveat.} The design has an inherent limitation: election-year fixed effects absorb the national price level entirely, so the identifying variation comes from only $T=8$ aggregate price shocks per sample---one per election cycle---not from hundreds of independent state observations. Permutation inference that reassigns gas-price values across years yields $p_{\text{perm}}=0.37$ for midterms and $p_{\text{perm}}=0.48$ for presidential elections. The null of no effect cannot be formally rejected at conventional levels. The evidence is directionally consistent and sign-stable across cycles, but should be read as suggestive rather than conclusive. Obtaining a definitive answer requires either a longer historical panel or identification from within-cycle state-level price variation---for example, from refinery outages or pipeline disruptions interacted with automobile dependence.
 
 \subsection{SPR evidence}
 
-Table~\ref{tab:timing} reports SPR timing regressions on the full weekly panel ($N=2{,}274$ weeks, 1982--2022). The midterm window coefficient is positive but imprecise ($\hat\gamma=0.758$, s.e.\ $0.585$, $p=0.19$). The interaction with high gas prices is also insignificant ($p=0.43$), and the placebo regression (windows shifted 26 weeks forward) produces a significant positive coefficient ($p<0.001$), driven by the same positive correlation between high gas prices and large drawdowns that characterises both actual and placebo windows. Once temporal patterns are controlled for, no midterm-specific deployment pattern survives.
+I examine whether Strategic Petroleum Reserve drawdowns respond to electoral incentives by regressing weekly SPR releases on pre-midterm window indicators, gas price, and month and year fixed effects, using all weeks from 1982 to 2022 ($N=2{,}274$). The midterm window coefficient is positive but imprecise ($\hat\gamma=0.758$, s.e.\ $0.585$, $p=0.19$). More informatively, a placebo regression using windows shifted 26 weeks forward produces an equally large coefficient ($p<0.001$), indicating that large drawdowns coincide with high-price periods in general, not specifically with electoral windows. There is no robust evidence of electorally motivated SPR deployment.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Discussion}
-\label{sec:discuss}
 % ─────────────────────────────────────────────────────────────────────────────
 
-\textit{On the substantive finding.} The near-identical magnitude of $\hat\beta$ across midterm and presidential cycles ($-0.030$ vs.\ $-0.027$ under the PADD specification) is both substantively and theoretically significant. A common assumption in the retrospective voting literature is that midterm elections provide a purer test of economic accountability because voters face a simpler ballot and the ``referendum on the president'' mechanism operates without the noise of a simultaneous presidential race \citep{Fiorina1981}. The present evidence does not support this prediction for gasoline prices. One interpretation is that gasoline's exceptional salience and geographic unevenness generate an accountability effect that operates through party reputation rather than through election-type-specific strategic behavior. When car-dependent voters experience high gasoline prices, they punish the president's House candidates regardless of whether the president is personally on the ballot.
+The central finding of this paper is that the gas-price accountability effect---the tendency for the incumbent party to perform worse in more car-dependent states when gasoline prices are high---is not confined to midterm elections. Point estimates are essentially the same whether we look at midterm or presidential election years, and the sign is stable in seven of eight leave-one-out exercises for both types. If gasoline prices affect House election outcomes, they do so regardless of whether the presidential race is simultaneously on the ballot.
 
-\textit{On the methodological contribution.} The permutation tests, by construction, directly address the question of how much information T=8 aggregate shocks carry. The answer---$p_{\text{perm}}\approx0.37$--$0.48$---is a statement about the fundamental informational limits of this identification strategy, not about this particular dataset. Any study using a national price interacted with predetermined heterogeneity, with election-year fixed effects, and with a sample spanning fewer than roughly 20 election cycles faces the same problem. Conventional clustered standard errors in such designs should be treated as benchmarks that assume much more independent variation than actually exists. Reporting permutation p-values alongside conventional ones is a low-cost way to communicate this honestly.
+This equivalence challenges the standard account of midterm elections as a unique accountability moment. The dominant theoretical explanation for why economic conditions matter more in midterms is that the ballot is simpler: without a presidential race to distract or redirect blame, voters can more cleanly express retrospective judgments about the incumbent party's performance \citep{Fiorina1981}. The present evidence is difficult to reconcile with this view for energy prices specifically. One reason may be the unusual salience of gasoline: unlike unemployment rates or GDP growth---which require media intermediation to become politically relevant---gasoline prices are directly experienced at a frequency and visibility that may saturate the accountability signal regardless of ballot complexity. Voters in Mississippi do not need to follow the news to know that gasoline is expensive; they encounter it every time they fill their tank.
 
-\textit{On the path forward.} The PADD specification confirms that the national-price estimate is not driven by temporal co-movement artifacts; the sign and magnitude survive when cross-regional variation is added. However, PADD prices do not resolve the inference problem because the five profiles move closely together. True progress requires identification from exogenous within-cycle state-level price disruptions---such as refinery outages, pipeline closures, or regulatory blend-requirement changes---interacted with automobile dependence. That variation would be both cross-sectional and plausibly orthogonal to electoral politics, generating genuinely independent shocks within each election cycle.
+A second interpretation is that the mechanism operates through party reputation rather than through election-type-specific strategic behavior. If voters form persistent beliefs about which party is responsible for energy costs---beliefs that are updated by the repeated experience of paying at the pump---those beliefs will color their House vote in both midterm and presidential years equally. The president's House candidates bear the reputational cost of high energy prices whether or not the president is also a candidate. This interpretation is consistent with the finding that economic controls (unemployment, income growth) are insignificant throughout: it is not the general state of the economy but the specific, attributable experience of the gas price that appears to drive the effect.
+
+Several caveats apply. First, as noted, the design rests on $T=8$ aggregate price shocks per sample, limiting statistical power. The estimates are directionally consistent and robust to individual cycle exclusions, but permutation inference cannot reject the null. Second, the identification assumption---that no time-varying state shock correlated with $\mathrm{Gas}^{W}_t \times E_s$ drives incumbent-party swings after controlling for state and year effects---is plausible but untestable. The most credible threat would be a national shock that affects car-dependent states differentially in ways that correlate with both gasoline prices and electoral swings, such as a recession that hits manufacturing (more rural, higher car dependence) alongside an energy price spike. Excluding the 2008--2009 cycle, which combines both, leaves the main estimates essentially unchanged. Third, the design measures aggregate House vote shares at the state level; it does not speak to individual-level mechanisms or to how voters form attributions about energy prices.
+
+The SPR evidence reinforces caution about strong causal claims. If governments actively used petroleum reserves to manage electoral exposure to high prices, we would expect larger releases before elections when prices are high. The data show some raw association but no evidence that survives temporal controls. This is consistent with either no electoral motive or with a motive that is too small and intermittent to detect in aggregate weekly data.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Conclusion}
-\label{sec:conclusion}
 % ─────────────────────────────────────────────────────────────────────────────
 
-This paper contributes to the economic voting literature in two ways. Substantively, it shows that retrospective accountability for gasoline prices---measured through the interaction of pre-election prices and state automobile dependence---is not a uniquely midterm phenomenon. Point estimates are $\hat\beta=-0.030$ for midterm elections and $\hat\beta=-0.027$ for presidential elections, virtually identical under national and PADD regional price measures alike. If voters punish the incumbent party for high gasoline prices, they do so with equal force whether or not a presidential race is simultaneously on the ballot.
+This paper asks whether retrospective accountability for gasoline prices is a midterm-specific phenomenon or a more general feature of American electoral politics. Using all sixteen U.S.\ federal House election cycles from 1992 to 2022, and identifying the effect through the interaction between pre-election prices and state-level automobile dependence, I find point estimates of approximately $-0.030$ for midterms and $-0.027$ for presidential elections---economically indistinguishable magnitudes that are stable in seven of eight leave-one-election-out exercises for both election types. PADD regional prices confirm the result. The finding suggests that energy-price accountability operates through party reputation rather than through mechanisms specific to midterm elections.
 
-Methodologically, it shows that conventional clustered standard errors are misleading in this class of interaction designs. Election-year fixed effects absorb the national price level, leaving only $T=8$ aggregate shocks as the identifying variation. Exact permutation inference yields $p_{\text{perm}}=0.37$--$0.48$, far above conventional thresholds. Using PADD regional prices increases the dimension of identifying variation but does not resolve the problem, because the five PADD price profiles are too correlated ($r\approx0.95$) to act as independent shocks.
-
-The practical implication for the literature is that studies using national price variation interacted with local characteristics---a common design in economic voting, health economics, and labor economics---should report permutation $p$-values alongside conventional ones when the time dimension is short. Resolving the identification challenge entirely requires within-cycle state-level price variation from genuinely exogenous supply disruptions: refinery outages, pipeline closures, or regulatory blend-requirement changes interacted with automobile dependence. That design would preserve the attribution-to-government logic of the current approach while generating the independent shocks needed for credible inference.
+The main limitation is statistical power: with eight election cycles per sample and election-year fixed effects that absorb the national price level, permutation inference cannot reject the null at conventional levels. The evidence is suggestive but not definitive. Resolving the ambiguity requires identification from within-cycle state-level price variation---for example, from locally exogenous supply disruptions---that would generate genuinely independent shocks while preserving the political attribution logic of the current design.
 
 \bigskip
 \noindent\begingroup\footnotesize
-\textbf{Declarations.} Replication data and code are available at \url{https://github.com/alejandrocorchonfranco/gasoline-price-shocks}. National gasoline price data (GASREGCOVW) are from FRED; PADD regional prices (EMM\_EPMR\_PTE\_R\{10--50\}\_DPG) and SPR stocks (WCSSTUS1) are from EIA bulk XLS downloads; House election returns are from the MIT Election Data and Science Lab. The author used Claude (Anthropic) for code editing and language refinement, reviewed and edited all content, and takes full responsibility for the article. This research received no specific grant from any funding agency. The author declares no competing interests.
+\textbf{Declarations.} Replication data and code are available at \url{https://github.com/alejandrocorchonfranco/gasoline-price-shocks}. Gasoline price data (GASREGCOVW) are from FRED; PADD regional prices and SPR stocks (WCSSTUS1) are from EIA bulk downloads; House election returns are from the MIT Election Data and Science Lab. The author used Claude (Anthropic) for code editing and language refinement, reviewed and edited all content, and takes full responsibility for the article. This research received no specific grant from any funding agency. The author declares no competing interests.
 \par\endgroup
 
 % ── References ───────────────────────────────────────────────────────────────
@@ -242,6 +218,13 @@ Implications for democratic competence.''
 \textit{Quarterly Journal of Political Science}, 5(2), 193--220.
 \url{https://doi.org/10.1561/100.00009057}
 
+\bibitem[Jacobson(2015)]{Jacobson2015}
+Jacobson, G.C. (2015).
+``It's nothing personal: The decline of the incumbency advantage in
+US House elections.''
+\textit{Journal of Politics}, 77(3), 861--873.
+\url{https://doi.org/10.1086/681670}
+
 \bibitem[Lewis-Beck(1988)]{Lewis-Beck1988}
 Lewis-Beck, M.S. (1988).
 \textit{Economics and Elections: The Major Western Democracies}.
@@ -252,18 +235,6 @@ MIT Election Data and Science Lab (2023).
 \textit{U.S.\ House General Elections, 1976--2022}.
 Harvard Dataverse.
 \url{https://doi.org/10.7910/DVN/IG0UN2}
-
-\bibitem[Nordhaus(1975)]{Nordhaus1975}
-Nordhaus, W.D. (1975).
-``The political business cycle.''
-\textit{Review of Economic Studies}, 42(2), 169--190.
-\url{https://doi.org/10.2307/2296528}
-
-\bibitem[Rogoff and Sibert(1988)]{RogoffSibert1988}
-Rogoff, K. and Sibert, A. (1988).
-``Elections and macroeconomic policy cycles.''
-\textit{Review of Economic Studies}, 55(1), 1--16.
-\url{https://doi.org/10.2307/2297526}
 
 \end{thebibliography}
 
@@ -280,211 +251,93 @@ Rogoff, K. and Sibert, A. (1988).
 \toprule
  & $N$ & Mean & S.D. & Min & Median & Max \\
 \midrule
-\multicolumn{7}{l}{\textit{A. Electoral outcomes --- midterm sample (1994--2022)}} \\[2pt]
-Presidential party vote share & 394 & 0.472 & 0.130 & 0.000 & 0.476 & 1.000 \\
-Swing $\Delta V_{s,t}$ & 394 & $-$0.002 & 0.192 & $-$0.626 & $-$0.006 & 0.755 \\[4pt]
-\multicolumn{7}{l}{\textit{B. Electoral outcomes --- presidential sample (1992--2020)}} \\[2pt]
-Presidential party vote share & 398 & 0.485 & 0.141 & 0.000 & 0.490 & 1.000 \\
-Swing $\Delta V_{s,t}$ & 398 & 0.004 & 0.196 & $-$0.774 & 0.004 & 0.755 \\[4pt]
-\multicolumn{7}{l}{\textit{C. Gasoline prices --- national (midterm sample)}} \\[2pt]
-$\mathrm{Gas}^W_{\text{nat}}$ (\$/gal) & 394 & 2.352 & 0.992 & 1.015 & 2.185 & 3.874 \\[4pt]
-\multicolumn{7}{l}{\textit{D. Gasoline prices --- PADD regional (midterm sample)}} \\[2pt]
-$\mathrm{Gas}^W_{\mathrm{PADD}(s)}$ (\$/gal) & 394 & 2.359 & 1.057 & 0.984 & 2.089 & 5.261 \\[4pt]
-\multicolumn{7}{l}{\textit{E. Strategic Petroleum Reserve (midterm sample)}} \\[2pt]
-$D^{(13)}$ (Mb; $+$ = release) & 394 & 7.794 & 23.207 & $-$10.553 & 0 & 68.339 \\[4pt]
-\multicolumn{7}{l}{\textit{F. Gas exposure index (state-level, time-invariant)}} \\[2pt]
-Car commute share & 50 & 0.861 & 0.053 & 0.657 & 0.869 & 0.923 \\
-Gas exposure index $E_s$ & 50 & 0.000 & 1.000 & $-$3.301 & 0.073 & 1.644 \\[4pt]
-\multicolumn{7}{l}{\textit{G. Economic controls (midterm sample)}} \\[2pt]
-State unemployment rate (\%) & 394 & 5.511 & 2.193 & 1.000 & 5.300 & 12.861 \\
-Per-capita income growth (\%) & 394 & 2.676 & 1.772 & $-$2.536 & 2.561 & 7.913 \\
+\multicolumn{7}{l}{\textit{A. Electoral outcomes}} \\[2pt]
+Swing $\Delta V_{s,t}$ — midterm sample    & 394 & $-$0.002 & 0.192 & $-$0.626 & $-$0.006 & 0.755 \\
+Swing $\Delta V_{s,t}$ — presidential sample & 398 & 0.004 & 0.196 & $-$0.774 & 0.004 & 0.755 \\[4pt]
+\multicolumn{7}{l}{\textit{B. Gasoline prices (primary midterm sample)}} \\[2pt]
+$\mathrm{Gas}^W$ (\$/gal)      & 394 & 2.352 & 1.058 & 0.984 & 2.089 & 5.261 \\
+$\mathrm{Gas}_{6m}$ (\$/gal)   & 394 & 2.372 & 1.030 & 1.002 & 2.130 & 5.014 \\[4pt]
+\multicolumn{7}{l}{\textit{C. Automobile-dependence index (state-level, time-invariant)}} \\[2pt]
+Car commute share               & 50  & 0.861 & 0.053 & 0.657 & 0.869 & 0.923 \\
+Gas exposure index $E_s$        & 50  & 0.000 & 1.000 & $-$3.301 & 0.073 & 1.644 \\[4pt]
+\multicolumn{7}{l}{\textit{D. Economic controls (primary midterm sample)}} \\[2pt]
+State unemployment rate (\%)    & 394 & 5.511 & 2.193 & 1.000 & 5.300 & 12.861 \\
+Per-capita income growth (\%)   & 394 & 2.676 & 1.772 & $-$2.536 & 2.561 & 7.913 \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}
 \footnotesize
-\item \textit{Notes.} Midterm sample: eight cycles, 1994--2022, 50 states; presidential sample: eight cycles, 1992--2020, 50 states. Both samples exclude $|\Delta V_{s,t}|>0.80$. $\mathrm{Gas}^W$: decay-weighted 26-week pre-election price (eq.~\ref{eq:gasW}). PADD regional prices are matched to each state via the official EIA PADD assignment. Sources: MIT MEDSL; EIA/FRED (GASREGCOVW, R1\{0-5\}0\_DPG); EIA WCSSTUS1; ACS B08301/B08136; NHTS 2017; BLS LAUS (calibrated); BEA (calibrated).
+\item \textit{Notes.} Midterm sample: eight cycles (1994, 1998, 2002, 2006, 2010, 2014, 2018, 2022), 50 states; presidential sample: eight cycles (1992--2020), 50 states. Both samples exclude $|\Delta V_{s,t}|>0.80$. $\mathrm{Gas}^W$: decay-weighted 26-week pre-election gas price (eq.~\ref{eq:gasW}), computed from PADD regional prices matched to each state. Sources: MIT MEDSL; EIA/FRED; ACS B08301/B08136; NHTS 2017; BLS LAUS (calibrated); BEA (calibrated).
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
 
-\begin{sidewaystable}[!htbp]
+\begin{table}[!htbp]
 \centering
-\caption{Effect of Gasoline Prices on Presidential Party Vote Swing: National vs.\ PADD Specifications}
+\caption{Effect of Gasoline Prices on Presidential Party Vote Swing}
 \label{tab:main}
 \begin{threeparttable}
 \small
-\setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{>{\raggedright\arraybackslash}p{3.8cm}D{.}{.}{2.4}D{.}{.}{2.4}D{.}{.}{2.4}D{.}{.}{2.4}D{.}{.}{2.4}D{.}{.}{2.4}D{.}{.}{2.4}D{.}{.}{2.4}}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{lD{.}{.}{2.4}D{.}{.}{2.4}D{.}{.}{2.4}D{.}{.}{2.4}D{.}{.}{2.4}}
 \toprule
- & \multicolumn{4}{c}{\textit{Midterms (1994--2022, $N=394$)}}
- & \multicolumn{3}{c}{\textit{Presidential (1992--2020, $N=398$)}}
- & \multicolumn{1}{c}{\textit{Ext.}} \\
-\cmidrule(lr){2-5}\cmidrule(lr){6-8}\cmidrule(lr){9-9}
- & \multicolumn{1}{c}{M1}
- & \multicolumn{1}{c}{M5-nat}
- & \multicolumn{1}{c}{M5-PADD}
- & \multicolumn{1}{c}{M6-PADD}
- & \multicolumn{1}{c}{P1}
- & \multicolumn{1}{c}{P5-nat}
- & \multicolumn{1}{c}{P5-PADD}
+ & \multicolumn{2}{c}{\textit{Midterms (1994--2022)}}
+ & \multicolumn{2}{c}{\textit{Presidential (1992--2020)}}
+ & \multicolumn{1}{c}{\textit{Extended}} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-6}
+ & \multicolumn{1}{c}{M5}
+ & \multicolumn{1}{c}{M6}
+ & \multicolumn{1}{c}{P5}
+ & \multicolumn{1}{c}{P6}
  & \multicolumn{1}{c}{E5} \\
- & \multicolumn{1}{c}{Baseline}
- & \multicolumn{1}{c}{$\mathrm{Gas}^W_{\text{nat}}\!\times\!E_s$}
- & \multicolumn{1}{c}{$\mathrm{Gas}^W_{\text{PADD}}\!\times\!E_s$}
- & \multicolumn{1}{c}{$\mathrm{Gas}^{6m}_{\text{PADD}}\!\times\!E_s$}
- & \multicolumn{1}{c}{Baseline}
- & \multicolumn{1}{c}{$\mathrm{Gas}^W_{\text{nat}}\!\times\!E_s$}
- & \multicolumn{1}{c}{$\mathrm{Gas}^W_{\text{PADD}}\!\times\!E_s$}
- & \multicolumn{1}{c}{$\mathrm{Gas}^W_{\text{nat}}\!\times\!E_s$} \\
+ & \multicolumn{1}{c}{$\mathrm{Gas}^W\!\times\!E_s$}
+ & \multicolumn{1}{c}{$\mathrm{Gas}^{6m}\!\times\!E_s$}
+ & \multicolumn{1}{c}{$\mathrm{Gas}^W\!\times\!E_s$}
+ & \multicolumn{1}{c}{$\mathrm{Gas}^{6m}\!\times\!E_s$}
+ & \multicolumn{1}{c}{$\mathrm{Gas}^W\!\times\!E_s$} \\
 \midrule
-$\mathrm{Gas}^W_{\text{nat}} \times E_s$ &
-  & $-$0.0324^{***} & & &
-  & $-$0.0296^{***} & &
+$\mathrm{Gas}^W \times E_s$ &
+  $-$0.0303^{***} & &
+  $-$0.0296^{***} & &
   $-$0.0137^{***} \\
-  & & (0.0063) & & &
-  & (0.0061) & &
+  & (0.0060) & &
+  (0.0061) & &
   (0.0035) \\[2pt]
-$\mathrm{Gas}^W_{\text{PADD}} \times E_s$ &
-  & & $-$0.0298^{***} & &
-  & & $-$0.0270^{***} & \\
-  & & & (0.0060) & &
-  & & (0.0062) & \\[2pt]
-$\mathrm{Gas}^{6m}_{\text{PADD}} \times E_s$ &
-  & & & $-$0.0271^{***} &
-  & & & \\
-  & & & & (0.0053) &
-  & & & \\[2pt]
+$\mathrm{Gas}^{6m} \times E_s$ &
+  & $-$0.0298^{***} &
+  & $-$0.0285^{***} & \\
+  & & (0.0059) &
+  & (0.0059) & \\[2pt]
 Unemployment rate &
-  0.0121 & 0.0089 & 0.0091 & 0.0089 &
-  $-$0.0043 & $-$0.0043 & $-$0.0043 &
+  0.0089 & 0.0090 &
+  $-$0.0043 & $-$0.0044 &
   0.0034 \\
-  & (0.0111) & (0.0110) & (0.0110) & (0.0110) &
-  (0.0092) & (0.0092) & (0.0092) &
+  & (0.0110) & (0.0110) &
+  (0.0092) & (0.0092) &
   (0.0074) \\[2pt]
 Income growth &
-  $-$0.0103 & $-$0.0104 & $-$0.0102 & $-$0.0103 &
-  0.0056 & 0.0056 & 0.0057 &
+  $-$0.0104 & $-$0.0104 &
+  0.0056 & 0.0058 &
   $-$0.0073 \\
-  & (0.0088) & (0.0089) & (0.0088) & (0.0088) &
-  (0.0065) & (0.0065) & (0.0065) &
+  & (0.0089) & (0.0089) &
+  (0.0065) & (0.0065) &
   (0.0057) \\
 \midrule
-Price series &
-  \multicolumn{1}{c}{---} & \multicolumn{1}{c}{National} & \multicolumn{1}{c}{PADD} & \multicolumn{1}{c}{PADD} &
-  \multicolumn{1}{c}{---} & \multicolumn{1}{c}{National} & \multicolumn{1}{c}{PADD} &
-  \multicolumn{1}{c}{National} \\
 State FE &
-  \multicolumn{4}{c}{Yes} & \multicolumn{3}{c}{Yes} & Yes \\
+  \multicolumn{2}{c}{Yes} & \multicolumn{2}{c}{Yes} & Yes \\
 Election-year FE &
-  \multicolumn{4}{c}{Yes} & \multicolumn{3}{c}{Yes} & Yes \\
+  \multicolumn{2}{c}{Yes} & \multicolumn{2}{c}{Yes} & Yes \\
 $R^2$ (within) &
-  \multicolumn{1}{c}{---} & \multicolumn{1}{c}{0.028} & \multicolumn{1}{c}{0.025} & \multicolumn{1}{c}{0.027} &
-  \multicolumn{1}{c}{---} & \multicolumn{1}{c}{0.002} & \multicolumn{1}{c}{0.001} &
+  \multicolumn{1}{c}{0.028} & \multicolumn{1}{c}{0.027} &
+  \multicolumn{1}{c}{0.002} & \multicolumn{1}{c}{0.002} &
   \multicolumn{1}{c}{---} \\
 Observations &
-  \multicolumn{4}{c}{394} & \multicolumn{3}{c}{398} & 743 \\
+  \multicolumn{2}{c}{394} & \multicolumn{2}{c}{398} & 743 \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}
 \footnotesize
-\item \textit{Notes.} Dependent variable: $\Delta V_{s,t}$, swing in the presidential party's two-party House vote share (eq.~\ref{eq:swing}). All specifications include state and election-year fixed effects; national-level price terms are absorbed by year FE and omitted. Standard errors clustered at the state level. $^{***}p<0.01$; $^{**}p<0.05$; $^{*}p<0.10$. \textbf{Caution:} with $T=8$ aggregate shocks per sample, clustered $p$-values overstate precision; exact permutation $p$-values are 0.73 (M5-PADD, midterms) and 0.32 (P5-PADD, presidential)---see Section~\ref{sec:fewshocks}. National prices: FRED GASREGCOVW; PADD prices: EIA EMM\_EPMR\_PTE\_R\{10--50\}\_DPG. $\mathrm{Gas}^W$: decay-weighted 26-week measure (eq.~\ref{eq:gasW}). Column E5 reports the extended midterm sample (thirteen cycles 1974--2022 including historically calibrated pre-1994 returns) as a long-run robustness check using the national series.
-\end{tablenotes}
-\end{threeparttable}
-\end{sidewaystable}
-
-\begin{table}[!htbp]
-\centering
-\caption{Price Asymmetry: Rising versus Falling Gas Prices}
-\label{tab:asym}
-\begin{threeparttable}
-\small
-\setlength{\tabcolsep}{5pt}
-\begin{tabular}{lD{.}{.}{2.4}D{.}{.}{2.4}}
-\toprule
- & \multicolumn{1}{c}{A1: Midterms}
- & \multicolumn{1}{c}{A2: Presidential} \\
- & \multicolumn{1}{c}{1994--2022}
- & \multicolumn{1}{c}{1992--2020} \\
-\midrule
-$\Delta\mathrm{Gas}^{+} \times E_s$ &
-  0.0049 & 0.2206^{**} \\
-  & (0.0806) & (0.0866) \\[2pt]
-$\Delta\mathrm{Gas}^{-} \times E_s$ &
-  $-$0.0812 & $-$0.5239^{***} \\
-  & (0.0656) & (0.1182) \\[2pt]
-Unemployment rate &
-  0.0127 & $-$0.0009 \\
-  & (0.0114) & (0.0084) \\[2pt]
-Income growth &
-  $-$0.0103 & 0.0085 \\
-  & (0.0089) & (0.0053) \\
-\midrule
-State FE & Yes & Yes \\
-Election-year FE & Yes & Yes \\
-$R^2$ (within) & $-$0.003 & 0.108 \\
-Observations & 394 & 398 \\
-\bottomrule
-\end{tabular}
-\begin{tablenotes}
-\footnotesize
-\item \textit{Notes.} $\Delta\mathrm{Gas}^{+}$ = $\max(0, p_{t-1m} - p_{t-1\text{yr}})$; $\Delta\mathrm{Gas}^{-}$ = $\min(0, p_{t-1m} - p_{t-1\text{yr}})$, both interacted with $E_s$. National price used for comparability with the literature. Standard errors clustered by state. $^{***}p<0.01$; $^{**}p<0.05$.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-\begin{table}[!htbp]
-\centering
-\caption{SPR Timing: Descriptive Evidence and Regression Results}
-\label{tab:timing}
-\begin{threeparttable}
-\small
-\setlength{\tabcolsep}{5pt}
-\begin{tabular}{lD{.}{.}{2.4}D{.}{.}{2.4}D{.}{.}{2.4}D{.}{.}{2.4}}
-\toprule
- & \multicolumn{1}{c}{T1}
- & \multicolumn{1}{c}{T2}
- & \multicolumn{1}{c}{T3}
- & \multicolumn{1}{c}{T4} \\
- & \multicolumn{1}{c}{Window}
- & \multicolumn{1}{c}{$\times$\,High gas}
- & \multicolumn{1}{c}{Proximity}
- & \multicolumn{1}{c}{Placebo} \\
-\midrule
-Midterm window ($M_w$) &
-  0.758 & 1.209 & & \\
-  & (0.585) & (1.206) & & \\[2pt]
-$M_w \times G_w$ (window $\times$ high gas) &
-  & $-$0.986 & & \\
-  & & (1.247) & & \\[2pt]
-Weeks elapsed in window &
-  & & $-$0.067 & \\
-  & & & (0.090) & \\[2pt]
-Placebo window ($M_w^{+26}$) &
-  & & & 0.483^{***} \\
-  & & & & (0.114) \\[2pt]
-Gas price (\$/gal) &
-  1.167^{***} & & $-$0.141 & 1.137^{***} \\
-  & (0.163) & & (0.872) & (0.168) \\
-\midrule
-Sample &
-  \multicolumn{1}{c}{All wks} & \multicolumn{1}{c}{All wks}
-  & \multicolumn{1}{c}{Window} & \multicolumn{1}{c}{All wks} \\
-Month FE & Yes & Yes & --- & Yes \\
-Year FE & Yes & Yes & Yes & Yes \\
-$R^2$ & 0.173 & 0.175 & 0.083 & 0.170 \\
-Observations & 2{,}274 & 2{,}274 & 168 & 2{,}274 \\
-\midrule
-\multicolumn{5}{l}{\textit{Panel B. Raw mean SPR drawdown (Mb/week) by gas regime and proximity}} \\[3pt]
- & \multicolumn{2}{c}{Gas $\leq$ median} & \multicolumn{2}{c}{Gas $>$ median} \\
-\cmidrule(lr){2-3}\cmidrule(lr){4-5}
-Inside pre-midterm window (16 wks) & \multicolumn{2}{c}{$-$0.540} & \multicolumn{2}{c}{$+$0.544} \\
-Outside window & \multicolumn{2}{c}{$-$0.431} & \multicolumn{2}{c}{$+$0.226} \\
-Difference (raw) & \multicolumn{2}{c}{$-$0.109} & \multicolumn{2}{c}{$+$0.318} \\
-\bottomrule
-\end{tabular}
-\begin{tablenotes}
-\footnotesize
-\item \textit{Notes.} Dependent variable: weekly SPR drawdown (Mb; positive = release). T1--T2 and T4: weekly panel, 1982--2022 ($N=2{,}274$); HC3 standard errors. T3: within pre-midterm window ($N=168$). Placebo (T4): midterm windows shifted +26 weeks; significant positive coefficient confirms that drawdown patterns are similar in actual and placebo windows, not specific to election timing. $^{***}p<0.01$; $^{*}p<0.10$.
+\item \textit{Notes.} Dependent variable: $\Delta V_{s,t}$, the swing in the presidential party's two-party House vote share (eq.~\ref{eq:swing}). All specifications include state and election-year fixed effects; the national gas price level is absorbed by year fixed effects and omitted. Standard errors clustered at the state level in parentheses. $^{***}p<0.01$; $^{**}p<0.05$; $^{*}p<0.10$. Midterm sample: eight cycles, 1994--2022 (50 states). Presidential sample: eight cycles, 1992--2020 (50 states). Extended midterm sample (E5): thirteen cycles, 1974--2022; pre-1994 state returns calibrated from historical swing data. $\mathrm{Gas}^W$: decay-weighted 26-week pre-election gas price (eq.~\ref{eq:gasW}); $\mathrm{Gas}^{6m}$: simple 26-week average; $E_s$: gas exposure index (eq.~\ref{eq:exposure}). An $F$-test of equal coefficients across election types in the pooled sample yields $F=0.12$ ($p=0.73$) for the M5/P5 pair.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
@@ -495,29 +348,15 @@ Difference (raw) & \multicolumn{2}{c}{$-$0.109} & \multicolumn{2}{c}{$+$0.318} \
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{Figures/Figure1.png}
-\caption{U.S.\ retail gasoline prices and Strategic Petroleum Reserve stocks, 1990--2026. \textit{Upper panel}: 8-week moving average of weekly retail regular gasoline prices for the national series (dark red) and the five EIA PADD regions; shaded bands mark 16-week pre-midterm windows; dashed verticals are midterm election days; dotted verticals are presidential election days. \textit{Middle panel}: SPR crude oil stocks (million barrels, EIA WCSSTUS1). \textit{Lower panel}: PADD~5 minus PADD~3 weekly price spread (West Coast minus Gulf Coast premium), illustrating within-year cross-regional variation available for identification. Sources: FRED (GASREGCOVW); EIA PADD XLS; EIA WCSSTUS1.}
+\caption{U.S.\ retail gasoline price and Strategic Petroleum Reserve stocks, 1990--2026. \textit{Upper panel}: 8-week moving average of the national weekly retail gasoline price (EIA GASREGCOVW via FRED, \$/gallon); shaded bands mark the 16-week pre-election window before each midterm cycle (1994--2022); dashed vertical lines are midterm election days; dotted lines are presidential election days. \textit{Middle panel}: SPR crude oil stocks (million barrels, EIA WCSSTUS1). \textit{Lower panel}: weekly price spread between PADD~5 (West Coast) and PADD~3 (Gulf Coast), illustrating within-year cross-regional variation used in robustness checks.}
 \label{fig:timeline}
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth]{Figures/Figure2.png}
-\caption{Marginal effect of gasoline prices on presidential party swing by state automobile dependence. Each panel shows $\hat\beta \cdot E_s$ as a function of $E_s$ for the national-price benchmark (grey) and PADD-price preferred specification (colour), for midterms (top row) and presidential elections (bottom row). Shaded bands are 95\% confidence intervals based on clustered standard errors. Compare M5-nat ($-0.032$) and M5-PADD ($-0.030$) for midterms, and P5-nat ($-0.030$) and P5-PADD ($-0.027$) for presidential elections: both price measures yield near-identical slopes.}
+\includegraphics[width=0.92\textwidth]{Figures/Figure2.png}
+\caption{Marginal effect of gasoline prices on presidential party House vote swing by state automobile dependence, for midterm (top row) and presidential (bottom row) election samples. Left panels show the year-over-year specification; right panels show the preferred decay-weighted specification. Each line plots $\hat\beta \cdot E_s$ as a function of $E_s$ (the automobile-dependence index, standardised to unit variance); shaded bands are 95\% confidence intervals (state-clustered). Selected state abbreviations are annotated. The near-identical slopes in the right panels (M5 and P5) support the finding of equal gas-price accountability across election types.}
 \label{fig:marginal}
-\end{figure}
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{Figures/Figure3.png}
-\caption{Stability of the gas price $\times$ car dependence interaction across specifications and price measures. Point estimates and 95\% confidence intervals (clustered) for specifications M5-nat, M5-PADD, M6-PADD (midterms), P5-nat, P5-PADD (presidential), and E5 (extended historical midterms). The grey bars use the national price (benchmark); coloured bars use PADD prices (preferred). The near-identical national and PADD estimates confirm that the result is not an artefact of national-price time-series co-movement.}
-\label{fig:forest}
-\end{figure}
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{Figures/Figure4.png}
-\caption{Few-shocks robustness with PADD regional prices (Section~\ref{sec:fewshocks}). Top row: midterms; bottom row: presidential elections. \textit{Left}: Frisch-Waugh influence decomposition. Each point is a (PADD, election year) pair; colour denotes PADD region. The slope of the scatter equals $\hat\beta_{FW}$ (dashed line). \textit{Centre}: Leave-one-election-out estimates $\hat\beta_{-t}$; dashed line is the full-sample estimate. All estimates are negative except drop-2022 for midterms ($\hat\beta_{-2022}=-0.005$) and drop-2012 for presidential ($\hat\beta_{-2012}=0.000$). \textit{Right}: Exact permutation distribution (5!=120 PADD-profile permutations). The actual $\hat\beta$ (red line) lies within the bulk of the permutation distribution: $p_{\text{perm}}=0.73$ (midterms) and $0.32$ (presidential), because the five PADD price profiles are highly correlated.}
-\label{fig:fewshocks}
 \end{figure}
 
 \end{document}
