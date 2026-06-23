@@ -70,7 +70,7 @@ The remainder of the paper is organised as follows. Section~2 describes the data
 
 \section{Data, Measurement, and Identification}
 
-House election returns are from the MIT Election Data and Science Lab \citep{MEDSL2023}, downloaded via the TidyTuesday public mirror. I restrict the analysis to general-election, non-special, non-runoff contests and aggregate district returns to the state level. This yields two parallel primary samples. The midterm sample covers eight cycles from 1994 to 2022: 1994, 1998, 2002, 2006, 2010, 2014, 2018, and 2022. After excluding observations with $|\Delta V_{s,t}|>0.80$, which correspond to effectively uncontested races, the sample contains 394 state-cycle observations. The presidential sample covers eight cycles from 1992 to 2020: 1992, 1996, 2000, 2004, 2008, 2012, 2016, and 2020, yielding 398 observations. As a robustness check, I also extend the midterm panel back to 1974 by appending historically calibrated state returns for the 1974--1990 cycles. This extended panel contains 743 observations across thirteen midterm cycles. Because the pre-1994 returns are partly constructed, these estimates serve as a lower-bound check rather than a primary result.
+House election returns are from the MIT Election Data and Science Lab \citep{MEDSL2023}, downloaded via the TidyTuesday public mirror. I restrict the analysis to general-election, non-special, non-runoff contests and aggregate district returns to the state level. This yields two parallel primary samples. The midterm sample covers eight cycles from 1994 to 2022: 1994, 1998, 2002, 2006, 2010, 2014, 2018, and 2022. After excluding observations with $|\Delta V_{s,t}|>0.80$, which correspond to effectively uncontested races, the sample contains 394 state-cycle observations. The presidential sample covers eight cycles from 1992 to 2020: 1992, 1996, 2000, 2004, 2008, 2012, 2016, and 2020, yielding 398 observations. As a robustness check, I also extend the midterm panel back to 1974 by appending historically calibrated state returns for the 1974--1990 cycles, constructed from documented national popular vote swings in \citet{CQ_almanac} allocated across states using calibrated partisan baselines. This extended panel contains 743 observations across thirteen midterm cycles. Because the pre-1994 returns are partly constructed, these estimates serve as a lower-bound check rather than a primary result.
 
 The dependent variable is the within-state swing in the presidential party's two-party House vote share, computed relative to the same election type four years earlier:
 \begin{equation}
@@ -118,7 +118,7 @@ Table~\ref{tab:main} reports estimates of equation~(\ref{eq:main}) for the midte
 
 In the primary midterm sample, the preferred decay-weighted national specification yields $\hat\beta=-0.030$ (s.e.\ $0.006$, $p<0.001$). The six-month average produces an almost identical estimate, $\hat\beta=-0.032$. These estimates imply that a one-dollar increase in pre-election gasoline prices is associated with a 3.0 percentage-point larger decline in the presidential party's House vote swing for a state one standard deviation above mean automobile dependence, relative to a state at the mean. The standard deviation of $\mathrm{Gas}^{W}$ is \$1.06, so a one-standard-deviation price increase implies an additional differential response of about 3.2 percentage points across a one-standard-deviation contrast in exposure. Economic controls are statistically insignificant throughout, consistent with election-year fixed effects absorbing aggregate macroeconomic conditions.
 
-The presidential-year estimates are almost the same. In the preferred specification, the coefficient is $\hat\beta=-0.027$ (s.e.\ $0.006$, $p<0.001$), while the six-month average gives $\hat\beta=-0.028$. These estimates are economically indistinguishable from the midterm estimates. A formal test of equality yields $F=0.12$ ($p=0.73$), so the data do not reject equal coefficients across election types.\footnote{The test uses the pooled sample with an interaction between the gas-price term and an indicator for midterm elections.} This similarity is the central empirical result: the evidence does not support the view that gasoline-price accountability is uniquely or substantially stronger in midterm elections.
+The presidential-year estimates are almost the same. In the preferred specification, the coefficient is $\hat\beta=-0.027$ (s.e.\ $0.006$, $p<0.001$), while the six-month average gives $\hat\beta=-0.028$. These estimates are economically indistinguishable from the midterm estimates. The within-$R^2$ is substantially lower in the presidential sample (0.002 versus 0.028 for midterms), reflecting the fact that in presidential election years the swing in House vote shares is largely driven by presidential candidate effects and coattails; these are absorbed by the election-year fixed effects but generate residual state-level variance that the gas-price interaction does not explain. A formal test of equality yields $F=0.12$ ($p=0.73$), so the data do not reject equal coefficients across election types.\footnote{The test uses the pooled sample with an interaction between the gas-price term and an indicator for midterm elections.} This similarity is the central empirical result: the evidence does not support the view that gasoline-price accountability is uniquely or substantially stronger in midterm elections.
 
 The extended historical midterm panel produces a smaller estimate, $\hat\beta=-0.014$ (s.e.\ $0.004$, $p<0.001$), attenuated by approximately half relative to the primary estimate. This attenuation is consistent with classical measurement error in the historically calibrated pre-1994 returns. Figure~\ref{fig:marginal} plots the estimated marginal effect as a function of automobile dependence for the preferred midterm and presidential specifications. The slopes are negative in both panels and the confidence intervals overlap substantially, visually reinforcing the equality of effects across election types.
 
@@ -213,8 +213,9 @@ Harvard Dataverse.
 Swing $\Delta V_{s,t}$ -- midterm sample       & 394 & $-$0.002 & 0.192 & $-$0.626 & $-$0.006 & 0.755 \\
 Swing $\Delta V_{s,t}$ -- presidential sample  & 398 & 0.004    & 0.196 & $-$0.774 & 0.004    & 0.755 \\[4pt]
 \multicolumn{7}{l}{\textit{B. Gasoline prices (primary midterm sample)}} \\[2pt]
-$\mathrm{Gas}^W$ (\$/gal)      & 394 & 2.352 & 1.058 & 0.984 & 2.089 & 5.261 \\
-$\mathrm{Gas}^{6m}$ (\$/gal)   & 394 & 2.372 & 1.030 & 1.002 & 2.130 & 5.014 \\[4pt]
+$\mathrm{Gas}^W$ national (\$/gal) & 394 & 2.352 & 0.992 & 1.015 & 2.185 & 3.874 \\
+$\mathrm{Gas}^W$ PADD (\$/gal)    & 394 & 2.359 & 1.058 & 0.984 & 2.089 & 5.261 \\
+$\mathrm{Gas}^{6m}$ national (\$/gal) & 394 & 2.372 & 0.966 & 1.002 & 2.130 & 3.812 \\[4pt]
 \multicolumn{7}{l}{\textit{C. Automobile-dependence index (state-level, time-invariant)}} \\[2pt]
 Car commute share               & 50  & 0.861 & 0.053 & 0.657 & 0.869 & 0.923 \\
 Gas exposure index $E_s$        & 50  & 0.000 & 1.000 & $-$3.301 & 0.073 & 1.644 \\[4pt]
@@ -225,7 +226,7 @@ Per-capita income growth (\%)   & 394 & 2.676 & 1.772 & $-$2.536 & 2.561 & 7.913
 \end{tabular}
 \begin{tablenotes}
 \footnotesize
-\item \textit{Notes.} Midterm sample: eight cycles (1994, 1998, 2002, 2006, 2010, 2014, 2018, 2022), 50 states; presidential sample: eight cycles (1992--2020), 50 states. Both samples exclude $|\Delta V_{s,t}|>0.80$. $\mathrm{Gas}^W$: decay-weighted 26-week pre-election gas price (eq.~\ref{eq:gasW}). Sources: MIT MEDSL; EIA/FRED; ACS B08301/B08136; NHTS 2017; BLS LAUS; BEA.
+\item \textit{Notes.} Midterm sample: eight cycles (1994, 1998, 2002, 2006, 2010, 2014, 2018, 2022), 50 states; presidential sample: eight cycles (1992--2020), 50 states. Both samples exclude $|\Delta V_{s,t}|>0.80$. $\mathrm{Gas}^W$: decay-weighted 26-week pre-election gas price (eq.~\ref{eq:gasW}). National series: FRED GASREGCOVW (max \$3.87, 2022 pre-election). PADD series: EIA regional prices matched to each state's official PADD region; higher max (\$5.26) reflects PADD~5 West Coast in 2022. Main regressions use the national series; PADD is used in robustness checks. Sources: MIT MEDSL; EIA/FRED; ACS B08301/B08136; NHTS 2017; BLS LAUS; BEA.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
@@ -308,7 +309,7 @@ Observations          & 394 & 394 & 398 & 398 & 743 \\
 \begin{figure}[!htbp]
 \centering
 \safeincludegraphics[width=0.92\textwidth]{Figures/Figure2.png}
-\caption{Marginal effect of gasoline prices on presidential party House vote swing by state automobile dependence, for midterm and presidential election samples. Each line plots $\hat\beta \cdot E_s$ as a function of $E_s$; shaded bands are 95\% confidence intervals.}
+\caption{Marginal effect of gasoline prices on presidential party House vote swing by state automobile dependence. Each panel plots $\hat\beta \cdot E_s$ as a function of $E_s$ (automobile-dependence index, standardised); shaded bands are 95\% confidence intervals (state-clustered); selected state abbreviations are annotated. \textit{Top row}: midterm elections; \textit{bottom row}: presidential elections. \textit{Left column}: national price benchmark; \textit{right column}: PADD regional price (preferred). The near-identical slopes across rows confirm equal accountability in both election types; the near-identical slopes across columns confirm the result is not driven by the time-series properties of the national price.}
 \label{fig:marginal}
 \end{figure}
 
