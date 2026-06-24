@@ -48,8 +48,10 @@ Does retrospective accountability for gasoline prices function differently for m
 \bigskip \noindent\textbf{Keywords:} Gasoline prices; retrospective voting; midterm elections; presidential elections; economic voting; electoral responsibility.
 
 \medskip \noindent\textbf{JEL Codes:} D72; H11; Q41; Q48.
+\end{abstract}
 
-\newpage \setcounter{page}{1}
+\newpage
+\setcounter{page}{1}
 
 \section{Introduction}
 
@@ -73,7 +75,7 @@ The dependent variable is the within-state swing in the presidential party's two
   \Delta V_{s,t} = V^{\mathrm{pp}}_{s,t} - V^{\mathrm{pp}}_{s,t-4},
   \label{eq:swing}
 \end{equation}
-with V^{\mathrm{pp}}_{s,t} being the share of the two-party House vote won by the party of the sitting president in state s at election t and the lag t - 4 is the election prior to election t. V^{\mathrm{pp}} is the Democratic share in a Democratic election and one minus that share for a Republican election, so the variable always takes into account support for the party currently holding the White House. First-differencing between different types of elections removes the basis for partisan biases.
+where $V^{\mathrm{pp}}_{s,t}$ is the share of the two-party House vote won by the party of the sitting president in state $s$ at election $t$, and the lag $t-4$ is the election prior to election $t$. $V^{\mathrm{pp}}$ is the Democratic share in a Democratic election and one minus that share for a Republican election, so the variable always takes into account support for the party currently holding the White House. First-differencing between different types of elections removes the basis for partisan biases.
 
 Weekly retail gasoline prices are the EIA GASREGCOVW series retrieved from FRED. The series begins on August 20, 1990, and covers all primary samples of election. We construct a number of pre-election price measures including the average over 4, 13, and 26 weeks before election day. The most preferred price measure is a decay-weighted 26-week average with more weight for prices in the months before the election:
 \begin{equation}
@@ -90,7 +92,7 @@ State exposure to gasoline prices is measured with a time-invariant automobile-d
       + 0.2\,Z_{\mathrm{rural}} + 0.1\,Z_{\mathrm{veh}},
   \label{eq:exposure}
 \end{equation}
-Where $Z_{\mathrm{car}}$ is the car-alone commuting share, $Z_{\mathrm{commute}}$ is the mean commute time, $Z_{\mathrm{rural}}$ is the rural population share, and $Z_{\mathrm{veh}}$ is vehicles per household. Each component is standardized to mean zero and unit variance according to ACS and NHTS 2017 data, and the index is then re-standardised across the 50 states. The index demonstrates meaningful geographic variation: New York ($E_s=-3.3$) is least dependent on cars, Hawaii is ($-1.7$), and Massachusetts is ($-1.5$), while Mississippi ($+1.6$), Alabama ($+1.5$), and Wyoming ($+1.5$) are the highest dependent. These differences are rooted in geography, urban form, and transport infrastructure built up over decades.
+where $Z_{\mathrm{car}}$ is the car-alone commuting share, $Z_{\mathrm{commute}}$ is the mean commute time, $Z_{\mathrm{rural}}$ is the rural population share, and $Z_{\mathrm{veh}}$ is vehicles per household. Each component is standardized to mean zero and unit variance according to ACS and NHTS 2017 data, and the index is then re-standardised across the 50 states. The index demonstrates meaningful geographic variation: New York ($E_s=-3.3$) is least dependent on cars, Hawaii is ($-1.7$), and Massachusetts is ($-1.5$), while Mississippi ($+1.6$), Alabama ($+1.5$), and Wyoming ($+1.5$) are the highest dependent. These differences are rooted in geography, urban form, and transport infrastructure built up over decades.
 
 Economic controls include October state unemployment rates, which are calibrated to BLS Local Area Unemployment Statistics, and per-capita real income growth, which is calibrated to BEA state personal income accounts. I use weekly Strategic Petroleum Reserve stock data from the EIA WCSSTUS1 series, available from August 1982, to determine whether SPR drawdowns are affected by electoral motivations. Table~\ref{tab:summary} shows descriptive statistics.
 
@@ -102,7 +104,7 @@ A one-dollar increase in the national gasoline price brings higher direct costs 
   + \varepsilon_{s,t},
   \label{eq:main}
 \end{equation}
-Where $\alpha_s$ are state fixed effects, $\lambda_t$ are election year fixed effects, and $\mathbf{X}_{s,t}$ are unemployment and income growth. The standard errors are clustered by state.
+where $\alpha_s$ are state fixed effects, $\lambda_t$ are election year fixed effects, and $\mathbf{X}_{s,t}$ are unemployment and income growth. The standard errors are clustered by state.
 
 Election-year fixed effects absorb the aggregate price level, national electoral tides, presidential approval, and all other common shocks. The national price therefore drops from equation~(\ref{eq:main}), and identification comes entirely from the cross-state variation in how much a given price level affects household budgets. State fixed effects also take into account permanent partisan baselines and any other time-invariant state characteristic, including the level of automobile dependence. The exposure index $E_s$ is predetermined, built from geography and infrastructure accumulated over decades.
 
@@ -112,7 +114,7 @@ The coefficient $\hat\beta$ measures the additional swing in the presidential pa
 
 Table~\ref{tab:main} reports estimates of equation~(\ref{eq:main}).
 
-In the primary midterm sample, the preferred decay-weighted specification yields the following value of $\hat\beta=-0.030$ (s.e. $0.006$, $p<0.001$) and the six-month average gives $\hat\beta=-0.032$. A $1 increase in the prices at the pre-election time corresponds to a 3 percentage point larger swing loss for a state that is one standard deviation above the average dependence of cars. With a standard deviation of $1.06$ in $\mathrm{Gas}^{W}$, a typical price rise of about 3.2 percentage points is expected to be different for each state. In all cases, economic controls are negligible from above.
+In the primary midterm sample, the preferred decay-weighted specification yields the following value of $\hat\beta=-0.030$ (s.e. $0.006$, $p<0.001$) and the six-month average gives $\hat\beta=-0.032$. A \$1 increase in the prices at the pre-election time corresponds to a 3 percentage point larger swing loss for a state that is one standard deviation above the average dependence of cars. With a standard deviation of \$1.06 in $\mathrm{Gas}^{W}$, a typical price rise of about 3.2 percentage points is expected to be different for each state. In all cases, economic controls are negligible from above.
 
 Presidential-year estimates are similar: $\hat\beta=-0.027$ (s.e. $0.006$, $p<0.001$) in the preferred one and $\hat\beta=-0.028$ in the six month average. The within-$R^2$ is much lower (0.002 vs. 0.028) because House swings in presidential years are somewhat mediated by the candidate effects and the associated coattails that the gas price interaction leaves unanswered. A formal test of equality gives $F=0.12$ ($p=0.73$).
 
@@ -128,13 +130,13 @@ Pre-midterm windows show high SPR drawdowns in the raw data, but a weekly regres
 
 \section{Discussion}
 
-In more car-dependent states, the House vote of the presidential party falls when gasoline prices are high. The main result is that this association has similar magnitude in midterm and presidential election years (β ≈ -0.030 and β ≈ -0.027 respectively, F = 0.12, p = 0.73) and the presidential race on the ballot is still in effect.
+In more car-dependent states, the House vote of the presidential party falls when gasoline prices are high. The main result is that this association has similar magnitude in midterm and presidential election years ($\hat\beta \approx -0.030$ and $\hat\beta \approx -0.027$ respectively, $F=0.12$, $p=0.73$) and the presidential race on the ballot is still in effect.
 
 This is against the belief of midterms as a very clear accountability moment. A simpler ballot allows voters to make retrospective judgments more clearly \citep{Fiorina1981}; it might also shift attention away from the economic performance of the economy in a simultaneous presidential race. For gasoline prices, that argument is weak. Unemployment rates and GDP growth reach voters through media coverage and political debate; gasoline prices are experienced at the pump directly by the same people who cast ballots. A price in large numbers on every roadside station may trigger an accountability response for the same reason: no matter what else is on the ballot.
 
 A complementary interpretation is that accountability here runs through party reputation: voters associate high energy costs with the incumbent party and penalize its House candidates over election years. The scarcity of unemployment and income controls throughout suggests the pattern reflects the gasoline price specifically, a consumer good that too many of us deal with.
 
-The results are not without their limitations. Only eight aggregate shocks per sample are considered and permutation would give p_{\text{perm}} > 0.37 and the null cannot be ruled out. The identification assumption (that there is no time-varying state shock with respect to the \mathrm{Gas}^{W}_{t} \times E_s that makes swings due to the state and year) is reasonable, but there are still differential macroeconomic shocks in car-dependent states in the analysis. The stability of estimates when the 2008--2009 cycle is excluded is also reassuring. Finally, the share of votes among different states is not clear that all states are equally affected and the mechanisms behind the correlation of state and voter shares are not clear.
+The results are not without their limitations. Only eight aggregate shocks per sample are considered and permutation would give $p_{\text{perm}} > 0.37$ and the null cannot be ruled out. The identification assumption (that there is no time-varying state shock with respect to the $\mathrm{Gas}^{W}_{t} \times E_s$ that makes swings due to the state and year) is reasonable, but there are still differential macroeconomic shocks in car-dependent states in the analysis. The stability of estimates when the 2008--2009 cycle is excluded is also reassuring. Finally, the share of votes among different states is not clear that all states are equally affected and the mechanisms behind the correlation of state and voter shares are not clear.
 
 The SPR analysis is similar. Pre-election windows show large drawdowns in raw comparisons, but the pattern disappears with time controls, and placebo test yields equally large results. If weekly data are not enough to detect a motive that is small or intermittent, there is no evidence to support electorally motivated deployment.
 
@@ -298,7 +300,7 @@ Observations          & 394 & 394 & 398 & 398 & 743 \\
 \begin{figure}[!htbp]
 \centering
 \safeincludegraphics[width=\textwidth]{Figures/Figure1.png}
-\caption{U.S.\ retail gasoline price and Strategic Petroleum Reserve stocks, 1990 --2026. Upper panel: 8-week moving average of the national weekly retail gasoline price; shaded bands indicate the 16-week pre-election window before each midterm cycle; dashed vertical lines indicate midterm election days; dotted lines indicate presidential election days. Middle panel: SPR crude oil stocks. Lower panel: weekly price spread between PADD 5 and PADD 3.}
+\caption{U.S.\ retail gasoline price and Strategic Petroleum Reserve stocks, 1990--2026. Upper panel: 8-week moving average of the national weekly retail gasoline price; shaded bands indicate the 16-week pre-election window before each midterm cycle; dashed vertical lines indicate midterm election days; dotted lines indicate presidential election days. Middle panel: SPR crude oil stocks. Lower panel: weekly price spread between PADD 5 and PADD 3.}
 \label{fig:timeline}
 \end{figure}
 
